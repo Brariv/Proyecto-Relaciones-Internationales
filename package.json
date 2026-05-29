@@ -1,0 +1,27 @@
+{
+  "name": "proyecto-relaciones-internationales",
+  "version": "1.0.0",
+  "description": "Basic Astro project setup",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brariv/Proyecto-Relaciones-Internationales.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Brariv/Proyecto-Relaciones-Internationales/issues"
+  },
+  "homepage": "https://github.com/Brariv/Proyecto-Relaciones-Internationales#readme",
+  "dependencies": {
+    "astro": "^6.4.2"
+  }
+}
