@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Destinos — UVG Global · Relaciones Internacionales</title>
+  <meta name="description" content="Destinos con convenio activo y próximas oportunidades de intercambio académico de la UVG." />
+
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="#00693E"/>
+      <circle cx="100" cy="100" r="56" fill="none" stroke="#8BC53F" stroke-width="4"/>
+      <text x="100" y="92" text-anchor="middle" font-family="serif" font-size="38" fill="#fff" font-style="italic">UVG</text>
+      <text x="100" y="124" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#8BC53F" letter-spacing="3">GLOBAL</text>
+    </svg>
+  </template>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+
+  <script src="image-slot.js" defer></script>
+  <script src="map.js" defer></script>
+</head>
+<body data-page="destinos">
+
+  <header class="site-header" style="background-color: rgb(59, 58, 60)">
+    <div class="wrap nav">
+      <a class="nav-logo" href="index.html" aria-label="UVG Global · Inicio">
+        <img src="assets/global-logo-blanco.png" alt="UVG Global" style="height: 30px; width: 220px" />
+      </a>
+
+      <nav class="nav-menu" aria-label="Principal">
+        <a href="index.html" style="color: rgb(255, 255, 255)">Inicio</a>
+        <a href="intercambio.html" style="color: rgb(255, 255, 255)">Intercambio</a>
+        <a href="pasantias.html" style="color: rgb(255, 255, 255)">Pasantías</a>
+        <a href="viajes.html" style="color: rgb(255, 255, 255)">Viajes Académicos</a>
+        <a href="especializacion.html" style="color: rgb(255, 255, 255)">Especialización</a>
+        <a href="estudiantes.html" style="color: rgb(255, 255, 255)">Testimonios</a>
+        <a href="destinos.html" style="color: rgb(139, 197, 63)" aria-current="page">Destinos</a>
+      </nav>
+
+      <a class="nav-cta" href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled" target="_blank" rel="noopener" style="background-color: rgb(105, 188, 74)">
+        Aplicar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section id="destinos" class="destinos" data-screen-label="09 Destinos">
+      <div class="wrap">
+        <div class="section-head section-head--split">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Movilidades disponibles</div>
+            <h2 class="section-title">Convenios activos con universidades aliadas.</h2>
+          </div>
+          <p class="section-kicker">
+            Estos destinos cuentan con convenio firmado y movilidad activa para los ciclos 2026–2027. Selecciona uno para conocer fechas, cupos e idioma de instrucción.
+          </p>
+        </div>
+
+        <div class="filter-bar" role="tablist">
+          <button type="button" data-dest-filter="all" class="active">Todos</button>
+          <button type="button" data-dest-filter="América Latina">América Latina</button>
+          <button type="button" data-dest-filter="Norteamérica">Norteamérica</button>
+          <button type="button" data-dest-filter="Europa">Europa</button>
+          <button type="button" data-dest-filter="Asia">Asia</button>
+          <span class="count" data-dest-count>Cargando…</span>
+        </div>
+
+        <div class="dest-grid" id="dest-grid"></div>
+      </div>
+    </section>
+
+    <section id="proximas" class="upcoming" data-screen-label="10 Próximas oportunidades">
+      <div class="wrap">
+        <div class="section-head section-head--split">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>En gestión</div>
+            <h2 class="section-title">Próximas oportunidades.</h2>
+          </div>
+          <p class="section-kicker">
+            Convenios en negociación o pendientes de activación para los ciclos siguientes. Si te interesa alguno, agenda una cita con la oficina para conocer el estado y los plazos estimados.
+          </p>
+        </div>
+
+        <div class="upcoming-grid" id="upcoming-grid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="brand">
+          <img src="assets/global-logo-blanco.png" alt="UVG Global" style="width: 250px; height: 40px" />
+          <p>Relaciones Internacionales · Universidad del Valle de Guatemala. Más de 60 años llevando la educación guatemalteca al mundo.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/CDIUVG/about" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3l.5-3H14V4.5c0-.8.3-1.5 1.6-1.5H17.6V.2C17.2.1 16 0 14.8 0 12.2 0 10.5 1.6 10.5 4.3V6H8v3h2.5v9H14V9z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@cdiuvg3724" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7c-.2-.85-.9-1.5-1.7-1.7C19.4 5.2 12 5.2 12 5.2s-7.4 0-8.9.4c-.8.2-1.5.85-1.7 1.7C1 8.8 1 12 1 12s0 3.2.4 4.7c.2.85.9 1.5 1.7 1.7 1.5.4 8.9.4 8.9.4s7.4 0 8.9-.4c.8-.2 1.5-.85 1.7-1.7.4-1.5.4-4.7.4-4.7zM9.8 15.3V8.7l6 3.3-6 3.3z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/uvg-global-bbb0a139b/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.65 4.76 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.4-2.07 2.85V21H10z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h5>El programa</h5>
+          <ul>
+            <li><a href="index.html">Sobre nosotros</a></li>
+            <li><a href="intercambio.html">Intercambio</a></li>
+            <li><a href="pasantias.html">Pasantías</a></li>
+            <li><a href="viajes.html">Viajes académicos</a></li>
+            <li><a href="especializacion.html">Especialización</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Destinos</h5>
+          <ul>
+            <li><a href="index.html#mapa">Mapa mundial</a></li>
+            <li><a href="destinos.html">Movilidades disponibles</a></li>
+            <li><a href="destinos.html#proximas">Próximas oportunidades</a></li>
+            <li><a href="estudiantes.html">Testimonios</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="mailto:uvgglobal@uvg.edu.gt">uvgglobal@uvg.edu.gt</a></li>
+            <li><a href="tel:+50225071500">Tel.: 2507-1500 Ext.: 21593</a></li>
+            <li><a href="https://www.uvg.edu.gt" target="_blank" rel="noopener">uvg.edu.gt</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-base">
+        <span>© 2026 Universidad del Valle de Guatemala · 60 años</span>
+        <span>Diseñado para Relaciones Internacionales · UVG Global</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+<style id="__om-edit-overrides">
+#dest-grid >article:nth-child(1) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(1) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(1) .foot >span { font-weight: 600 !important }
+#dest-grid >article:nth-child(1) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(1) .foot >span { padding: 10px 0px 0px 20px !important }
+#dest-grid >article:nth-child(2) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(2) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(2) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(2) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(2) .foot >span { padding: 10px 0px 0px 20px !important }
+#dest-grid >article:nth-child(3) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(3) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(3) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(4) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(4) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(4) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(4) .foot >span { padding: 10px 0px 0px 20px !important }
+#dest-grid >article:nth-child(5) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(5) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(5) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(6) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(6) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(6) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(7) .foot >span { padding: 10px 0px 0px !important }
+#dest-grid >article:nth-child(7) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(7) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(8) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(8) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(8) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(8) .foot >span { padding: 10px 0px 0px 20px !important }
+#dest-grid >article:nth-child(9) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(9) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(9) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(10) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(10) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(10) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(11) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(11) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(11) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(12) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(12) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(12) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(10) .foot >span { padding: 10px 0px 0px !important }
+#dest-grid >article:nth-child(7) .foot >span { padding: 10px 0px 0px !important }
+#dest-grid >article:nth-child(4) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(5) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(6) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(1) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(1) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(2) .foot >span { padding: 10px 0px 0px 19px !important }
+#dest-grid >article:nth-child(2) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(3) .foot >span { padding: 10px 0px 0px !important }
+#dest-grid >article:nth-child(3) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(8) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(8) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(9) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(11) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(11) .foot >span { padding: 0px !important }
+#dest-grid >article:nth-child(12) .foot >span { padding: 0px 0px 0px 20px !important }
+#dest-grid >article:nth-child(13) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(13) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(14) .foot >span { color: rgb(255, 255, 255) !important }
+#dest-grid >article:nth-child(14) .foot >span { font-weight: 900 !important }
+#dest-grid >article:nth-child(1) .foot { justify-content: space-evenly !important }
+#dest-grid >article:nth-child(1) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(1) .foot { align-items: baseline !important }
+#dest-grid >article:nth-child(1) .foot { padding: 32px 0px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 3px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 3px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 16px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 1px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 32px 0px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 3px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 1px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 1px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 25px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 24px 0px 32px !important }
+#dest-grid >article:nth-child(1) .foot { padding: 24px 0px !important }
+#dest-grid >article:nth-child(2) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(2) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(2) .foot { padding: 24px 0px !important }
+#dest-grid >article:nth-child(3) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(3) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(4) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(4) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(5) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(5) .foot { padding: 24px 0px !important }
+#dest-grid >article:nth-child(5) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(6) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(6) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(7) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { padding: 216px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(8) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(8) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(9) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(9) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(10) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(10) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(11) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(11) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(12) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(12) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(13) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(13) .foot { justify-content: space-around !important }
+#dest-grid >article:nth-child(14) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(14) .foot { padding: 24px 0px !important }
+#dest-grid >article:nth-child(14) .foot { justify-content: space-around !important }
+#dest-grid .foot >[aria-label="Ver detalles de Nagoya University"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid >article:nth-child(14) .foot { background-color: rgb(105, 188, 74) !important }
+#dest-grid >article:nth-child(14) .foot { background-color: rgb(0, 86, 47) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad del País Vasco"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de UQTR · Université du Québec"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Emporia State University"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Kanazawa University"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad de Castilla-La Mancha"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de TU Dresden"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad de Manizales"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de University of Houston"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad de Komatsu"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de CMU · Disney Academic Exchange"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad Europea"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universidad del Rosario"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid .foot >[aria-label="Ver detalles de Universität Würzburg (JMU)"] { background-color: rgb(105, 188, 74) !important }
+#dest-grid >article:nth-child(7) .foot { height: 81px !important }
+#dest-grid >article:nth-child(7) .foot { height: 60px !important }
+#dest-grid >article:nth-child(7) .foot { width: 30px !important }
+#dest-grid >article:nth-child(7) .foot { width: 341px !important }
+#dest-grid >article:nth-child(7) .foot { height: 81px !important }
+#dest-grid >article:nth-child(7) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { padding: 0px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { padding: 10px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { height: 10px !important }
+#dest-grid >article:nth-child(7) .foot { padding: 16px 0px 24px !important }
+#dest-grid >article:nth-child(7) .foot { height: 81px !important }
+</style>

@@ -1,0 +1,228 @@
+---
+const filters = [
+  { value: "all", label: "Todos" },
+  { value: "available", label: "Disponibles" },
+  { value: "upcoming", label: "Próximos" },
+  { value: "América Latina", label: "América Latina" },
+  { value: "Norteamérica", label: "Norteamérica" },
+  { value: "Europa", label: "Europa" },
+  { value: "Asia", label: "Asia" },
+];
+---
+
+<section id="mapa" class="map-section" data-screen-label="03 Mapa mundial">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Mapa mundial UVG</div>
+        <h2 class="section-title">Cada punto en el mapa es <em style="font-style:italic;color:var(--uvg-gold);">una historia esperando ser tuya.</em></h2>
+      </div>
+      <p class="section-kicker">
+        Explora los destinos en los que la UVG tiene presencia. Haz clic en cualquier marcador para ver los detalles del programa, semestre, cupos e idioma de instrucción.
+      </p>
+    </div>
+
+    <div class="map-filter" role="tablist" aria-label="Filtrar destinos del mapa">
+      {filters.map((f, i) => (
+        <button type="button" data-map-filter={f.value} class:list={[{ active: i === 0 }]}>{f.label}</button>
+      ))}
+    </div>
+
+    <div class="map-stage">
+      <div class="map-canvas" id="world-map">
+        <div class="map-legend">
+          <span><span class="swatch sw-available"></span>Convenio activo</span>
+          <span><span class="swatch sw-upcoming"></span>Próxima oportunidad</span>
+        </div>
+      </div>
+      <aside class="map-panel" id="map-panel" aria-live="polite">
+        <div class="panel-label">Selecciona un destino</div>
+        <h3>Haz clic en cualquier punto del mapa</h3>
+        <div class="city">Detalles, semestres y requisitos aparecerán aquí.</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+
+<script>
+  import { DESTINATIONS, COUNTRY_NAME_MAP } from "../data/destinations.js";
+
+  declare global {
+    interface Window {
+      d3: any;
+      topojson: any;
+    }
+  }
+
+  function selectDestination(id: string) {
+    const d = DESTINATIONS.find((x) => x.id === id);
+    if (!d) return;
+    const panel = document.getElementById("map-panel");
+    if (!panel) return;
+    panel.innerHTML = `
+      <div class="panel-label">${d.region}</div>
+      <h3>${d.uni}</h3>
+      <div class="city">${d.flag} ${d.city}, ${d.country}</div>
+      <dl class="rows">
+        <div class="row"><dt>Semestres</dt><dd>${d.semestres}</dd></div>
+        <div class="row"><dt>Carreras</dt><dd>${d.carreras}</dd></div>
+        <div class="row"><dt>Cupos</dt><dd>${d.cupos}</dd></div>
+        <div class="row"><dt>Idioma</dt><dd>${d.idioma}</dd></div>
+        <div class="row"><dt>Detalle</dt><dd>${d.notes}</dd></div>
+      </dl>
+      <a class="panel-cta" href="${d.site}" target="_blank" rel="noopener">
+        Sitio oficial
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    `;
+    document.querySelectorAll(".map-canvas .marker").forEach((m) => m.classList.remove("is-active"));
+    const target = document.querySelector(`.map-canvas .marker[data-id="${id}"]`);
+    if (target) target.classList.add("is-active");
+  }
+
+  async function renderWorldMap() {
+    const stage = document.getElementById("world-map");
+    if (!stage) return;
+
+    if (!window.d3 || !window.topojson) {
+      setTimeout(renderWorldMap, 80);
+      return;
+    }
+    const d3 = window.d3;
+    const topojson = window.topojson;
+
+    const width = 1000;
+    const height = 540;
+
+    const svg = d3
+      .select(stage)
+      .append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("role", "img")
+      .attr("aria-label", "Mapa mundial con destinos UVG Global");
+
+    const projection = d3.geoNaturalEarth1().scale(190).translate([width / 2, height / 2 + 10]);
+    const pathGen = d3.geoPath(projection);
+
+    const presentCountries = new Set(DESTINATIONS.map((d) => d.country.toLowerCase()));
+
+    let world;
+    try {
+      world = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then((r) => r.json());
+    } catch (e) {
+      console.error("Could not load world atlas:", e);
+      return;
+    }
+
+    const countries = topojson.feature(world, world.objects.countries).features;
+
+    svg
+      .append("g")
+      .attr("class", "land-layer")
+      .selectAll("path")
+      .data(countries)
+      .join("path")
+      .attr("d", pathGen)
+      .attr("class", (d: any) => {
+        const name = (d.properties.name || "").toLowerCase();
+        const norm = (COUNTRY_NAME_MAP as Record<string, string>)[name] || name;
+        return "country-shape" + (presentCountries.has(norm) ? " has-uvg" : "");
+      });
+
+    const markerGroup = svg.append("g").attr("class", "markers");
+
+    const markers = markerGroup
+      .selectAll("g.marker")
+      .data(DESTINATIONS)
+      .join("g")
+      .attr("class", (d: any) => "marker" + (d.status === "upcoming" ? " is-upcoming" : ""))
+      .attr("transform", (d: any) => {
+        const p = projection([d.lng, d.lat]);
+        return p ? `translate(${p[0]}, ${p[1]})` : null;
+      })
+      .attr("data-id", (d: any) => d.id)
+      .style("display", (d: any) => (projection([d.lng, d.lat]) ? null : "none"));
+
+    markers
+      .append("circle")
+      .attr("class", "pulse")
+      .attr("r", 4)
+      .style("fill", (d: any) => (d.status === "upcoming" ? "rgba(255,255,255,0.5)" : null));
+    markers
+      .append("circle")
+      .attr("class", "core")
+      .attr("r", 5)
+      .style("fill", (d: any) => (d.status === "upcoming" ? "#fff" : null))
+      .style("opacity", (d: any) => (d.status === "upcoming" ? 0.85 : 1));
+
+    const tooltip = d3
+      .select(stage)
+      .append("div")
+      .attr("class", "map-tooltip")
+      .style("position", "absolute")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
+
+    markers
+      .on("mouseenter", function (this: Element, e: any, d: any) {
+        tooltip.html(`<strong>${d.flag} ${d.country}</strong><br/><span>${d.uni}</span>`).style("opacity", 1);
+        d3.select(this).classed("is-active", true);
+      })
+      .on("mousemove", function (e: any) {
+        const rect = stage.getBoundingClientRect();
+        tooltip.style("left", e.clientX - rect.left + 14 + "px").style("top", e.clientY - rect.top - 12 + "px");
+      })
+      .on("mouseleave", function (this: Element) {
+        tooltip.style("opacity", 0);
+        d3.select(this).classed("is-active", false);
+      })
+      .on("click", function (this: Element, e: any, d: any) {
+        e.stopPropagation();
+        selectDestination(d.id);
+        markers.classed("is-active", false);
+        d3.select(this).classed("is-active", true);
+      });
+
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-map-filter]");
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.mapFilter;
+        markers.style("opacity", (d: any) => {
+          if (f === "all") return 1;
+          if (f === "available") return d.status === "available" ? 1 : 0.18;
+          if (f === "upcoming") return d.status === "upcoming" ? 1 : 0.18;
+          return d.region === f ? 1 : 0.18;
+        });
+      });
+    });
+  }
+
+  function boot() {
+    renderWorldMap();
+    if (document.getElementById("map-panel")) {
+      const wanted = new URLSearchParams(location.search).get("dest");
+      if (wanted && DESTINATIONS.some((d) => d.id === wanted)) {
+        const settle = () => {
+          selectDestination(wanted);
+          const mapa = document.getElementById("mapa");
+          if (mapa) mapa.scrollIntoView({ behavior: "smooth", block: "start" });
+        };
+        setTimeout(settle, 700);
+      } else {
+        setTimeout(() => selectDestination("ue-madrid"), 300);
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+</script>

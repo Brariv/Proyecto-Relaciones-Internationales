@@ -1,0 +1,49 @@
+---
+export interface Props {
+  /** href of the currently active nav link, e.g. "/" */
+  active?: string;
+}
+
+const { active = "/" } = Astro.props;
+
+const links = [
+  { href: "/", label: "Inicio" },
+  { href: "/intercambio", label: "Intercambio" },
+  { href: "/pasantias", label: "Pasantías" },
+  { href: "/viajes", label: "Viajes Académicos" },
+  { href: "/especializacion", label: "Especialización" },
+  { href: "/estudiantes", label: "Testimonios" },
+  { href: "/destinos", label: "Destinos" },
+];
+---
+
+<header class="site-header" style="background-color: rgb(59, 58, 60)">
+  <div class="wrap nav">
+    <a class="nav-logo" href="/" aria-label="UVG Global · Inicio">
+      <img src="/assets/global-logo-blanco.png" alt="UVG Global" style="height: 50%; width: 50%;" />
+    </a>
+
+    <nav class="nav-menu" aria-label="Principal">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          style={`color: ${link.href === active ? "rgb(139, 197, 63)" : "rgb(255, 255, 255)"}`}
+          aria-current={link.href === active ? "page" : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <a
+      class="nav-cta"
+      href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled"
+      target="_blank"
+      rel="noopener"
+      style="background-color: rgb(105, 188, 74)"
+    >
+      Aplicar
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+    </a>
+  </div>
+</header>

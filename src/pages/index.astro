@@ -1,13 +1,22 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import IntroSection from "../components/IntroSection.astro";
+import WorldMapSection from "../components/WorldMapSection.astro";
+import CtaSection from "../components/CtaSection.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Proyecto Relaciones Internacionales</title>
-  </head>
-  <body>
-    <h1>Proyecto Relaciones Internacionales</h1>
-  </body>
-</html>
+<BaseLayout title="Inicio — UVG Global · Relaciones Internacionales">
+  <Header active="/" />
+
+  <main id="top">
+    <Hero />
+    <IntroSection />
+    <WorldMapSection />
+    <CtaSection />
+  </main>
+
+  <Footer />
+</BaseLayout>

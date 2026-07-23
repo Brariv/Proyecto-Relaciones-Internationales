@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio — UVG Global · Relaciones Internacionales</title>
+  <meta name="description" content="Programa de Relaciones Internacionales de la UVG: intercambios, mapa mundial de destinos y movilidad estudiantil." />
+
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="#00693E"/>
+      <circle cx="100" cy="100" r="56" fill="none" stroke="#8BC53F" stroke-width="4"/>
+      <text x="100" y="92" text-anchor="middle" font-family="serif" font-size="38" fill="#fff" font-style="italic">UVG</text>
+      <text x="100" y="124" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#8BC53F" letter-spacing="3">GLOBAL</text>
+    </svg>
+  </template>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+
+  <script src="image-slot.js" defer></script>
+  <script src="map.js" defer></script>
+  <script src="carousel.js" defer></script>
+</head>
+<body data-page="inicio">
+
+  <header class="site-header" style="background-color: rgb(59, 58, 60)">
+    <div class="wrap nav">
+      <a class="nav-logo" href="index.html" aria-label="UVG Global · Inicio">
+        <img src="assets/global-logo-blanco.png" alt="UVG Global" style="height: 30px; width: 220px" />
+      </a>
+
+      <nav class="nav-menu" aria-label="Principal">
+        <a href="index.html" style="color: rgb(139, 197, 63)" aria-current="page">Inicio</a>
+        <a href="intercambio.html" style="color: rgb(255, 255, 255)">Intercambio</a>
+        <a href="pasantias.html" style="color: rgb(255, 255, 255)">Pasantías</a>
+        <a href="viajes.html" style="color: rgb(255, 255, 255)">Viajes Académicos</a>
+        <a href="especializacion.html" style="color: rgb(255, 255, 255)">Especialización</a>
+        <a href="estudiantes.html" style="color: rgb(255, 255, 255)">Testimonios</a>
+        <a href="destinos.html" style="color: rgb(255, 255, 255)">Destinos</a>
+      </nav>
+
+      <a class="nav-cta" href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled" target="_blank" rel="noopener" style="background-color: rgb(105, 188, 74)">
+        Aplicar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="hero" data-screen-label="01 Hero">
+      <div class="hero-headline">
+        <img class="hero-banner" src="assets/hero-boleto.png" alt="Universidad del Valle de Guatemala (UVG): ¡Tu boleto hacia el mundo! En UVG tu imaginación es el límite. Conoce el mundo mientras estudias en instituciones de renombre." />
+      </div>
+      <div class="hero-carousel" aria-roledescription="carousel" aria-label="Historias UVG Global">
+        <button class="carousel-nav prev" data-carousel-prev="" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"></path></svg>
+        </button>
+
+        <div class="carousel-track" id="carousel-track">
+          <!-- Cards injected by JS, content authored below for direct edit -->
+        </div>
+
+        <button class="carousel-nav next" data-carousel-next="" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"></path></svg>
+        </button>
+      </div>
+
+      <div class="carousel-dots" id="carousel-dots"></div>
+
+      <!-- Authored card content (read by carousel.js — edit these to change cards) -->
+      <template id="carousel-cards">
+        <article class="card-source" data-slot-id="hero-card-1" data-kicker="Destino destacado" data-cta="Ver convenios" data-cta-href="destinos.html" data-meta="14 países · 4 continentes">
+          <h2>La UVG, presente en cuatro continentes</h2>
+        </article>
+        <article class="card-source" data-slot-id="hero-card-2" data-kicker="Testimonio" data-cta="Leer historia" data-cta-href="estudiantes.html" data-meta="Adriana López · Noruega 🇳🇴">
+          <h2>Una guatemalteca estudiando sostenibilidad en Noruega</h2>
+        </article>
+        <article class="card-source" data-slot-id="hero-card-3" data-kicker="Convocatoria abierta" data-cta="Cómo postularse" data-cta-href="aplicar.html" data-meta="Ciclo 2026–2027">
+          <h2>Aplicaciones abiertas para el ciclo 2026–2027</h2>
+        </article>
+        <article class="card-source" data-slot-id="hero-card-4" data-kicker="Mapa mundial" data-cta="Explorar el mapa" data-cta-href="#mapa" data-meta="25+ universidades aliadas">
+          <h2>Encuentra tu destino en el mapa global UVG</h2>
+        </article>
+        <article class="card-source" data-slot-id="hero-card-5" data-kicker="Testimonio" data-cta="Leer historia" data-cta-href="estudiantes.html" data-meta="Gabriel Ruata · Madrid 🇪🇸">
+          <h2>Aprender a vivir solo en Madrid y madurar en el camino</h2>
+        </article>
+      </template>
+
+      <div class="wrap hero-foot">
+        <p class="lede">
+          Llevamos la formación académica de la Universidad del Valle de Guatemala más allá de nuestras fronteras: intercambios, convenios y experiencias culturales en universidades aliadas alrededor del mundo.
+        </p>
+        <div class="hero-cta-row">
+          <a class="btn btn--primary" href="destinos.html">
+            Ver destinos
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+          </a>
+          <a class="btn btn--ghost" href="aplicar.html">Cómo postularse</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="programa" class="intro" data-screen-label="02 Programa">
+      <div class="wrap">
+        <div class="intro-grid">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>El programa</div>
+          </div>
+          <div class="intro-body">
+            <p>
+              El Programa de Intercambios Estudiantiles ofrece estancias académicas de uno o dos semestres en una universidad extranjera aliada con la UVG.
+            </p>
+            <p>
+              Cursos convalidados, redes de contacto internacionales y una experiencia personal que transforma carreras enteras. Más de 60 años de tradición académica abren puertas en cuatro continentes.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro-stats">
+          <div class="stat">
+            <div class="num">25<span class="plus">+</span></div>
+            <div class="label">Universidades aliadas</div>
+          </div>
+          <div class="stat">
+            <div class="num">14</div>
+            <div class="label">Países de destino</div>
+          </div>
+          <div class="stat">
+            <div class="num">4</div>
+            <div class="label">Continentes</div>
+          </div>
+          <div class="stat">
+            <div class="num">60<span class="plus">+</span></div>
+            <div class="label">Años de tradición UVG</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa" class="map-section" data-screen-label="03 Mapa mundial">
+      <div class="wrap">
+        <div class="section-head section-head--split">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>Mapa mundial UVG</div>
+            <h2 class="section-title">Cada punto en el mapa es <em style="font-style:italic;color:var(--uvg-gold);">una historia esperando ser tuya.</em></h2>
+          </div>
+          <p class="section-kicker">
+            Explora los destinos en los que la UVG tiene presencia. Haz clic en cualquier marcador para ver los detalles del programa, semestre, cupos e idioma de instrucción.
+          </p>
+        </div>
+
+        <div class="map-filter" role="tablist" aria-label="Filtrar destinos del mapa">
+          <button type="button" data-map-filter="all" class="active">Todos</button>
+          <button type="button" data-map-filter="available">Disponibles</button>
+          <button type="button" data-map-filter="upcoming">Próximos</button>
+          <button type="button" data-map-filter="América Latina">América Latina</button>
+          <button type="button" data-map-filter="Norteamérica">Norteamérica</button>
+          <button type="button" data-map-filter="Europa">Europa</button>
+          <button type="button" data-map-filter="Asia">Asia</button>
+        </div>
+
+        <div class="map-stage">
+          <div class="map-canvas" id="world-map">
+            <div class="map-legend">
+              <span><span class="swatch sw-available"></span>Convenio activo</span>
+              <span><span class="swatch sw-upcoming"></span>Próxima oportunidad</span>
+            </div>
+          </div>
+          <aside class="map-panel" id="map-panel" aria-live="polite">
+            <div class="panel-label">Selecciona un destino</div>
+            <h3>Haz clic en cualquier punto del mapa</h3>
+            <div class="city">Detalles, semestres y requisitos aparecerán aquí.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" data-screen-label="11 Contacto">
+      <div class="wrap">
+        <div class="cta-card">
+          <div>
+            <h2>¿Listo para empezar tu <em>aventura?</em></h2>
+            <p>Agenda una asesoría con la oficina de Relaciones Internacionales y exploremos juntos las opciones que mejor se ajusten a tu carrera y tus tiempos.</p>
+            <div class="hero-cta-row" style="margin-top:36px;">
+              <a class="btn btn--primary" href="mailto:uvgglobal@uvg.edu.gt">
+                Escribir a la CDI
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+              <a class="btn btn--primary" href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled" target="_blank" rel="noopener" style="background-color: rgb(105, 188, 74);">
+                Aplicar
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="cta-side">
+            <div class="email">
+              <small>Correo CDI</small>
+              uvgglobal<br/>@uvg.edu.gt
+            </div>
+            <div class="row"><span>Oficina</span><strong>CIT-620</strong></div>
+            <div class="row"><span>Campus</span><strong>Campus Central</strong></div>
+            <div class="row"><span>Teléfono</span><strong>2507-1500 · Ext. 21593</strong></div>
+            <div class="row"><span>Horario</span><strong>Lunes a Viernes · 8:00 – 17:00</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="brand">
+          <img src="assets/global-logo-blanco.png" alt="UVG Global" style="width: 250px; height: 40px" />
+          <p>Relaciones Internacionales · Universidad del Valle de Guatemala. Más de 60 años llevando la educación guatemalteca al mundo.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/CDIUVG/about" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3l.5-3H14V4.5c0-.8.3-1.5 1.6-1.5H17.6V.2C17.2.1 16 0 14.8 0 12.2 0 10.5 1.6 10.5 4.3V6H8v3h2.5v9H14V9z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@cdiuvg3724" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7c-.2-.85-.9-1.5-1.7-1.7C19.4 5.2 12 5.2 12 5.2s-7.4 0-8.9.4c-.8.2-1.5.85-1.7 1.7C1 8.8 1 12 1 12s0 3.2.4 4.7c.2.85.9 1.5 1.7 1.7 1.5.4 8.9.4 8.9.4s7.4 0 8.9-.4c.8-.2 1.5-.85 1.7-1.7.4-1.5.4-4.7.4-4.7zM9.8 15.3V8.7l6 3.3-6 3.3z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/uvg-global-bbb0a139b/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.65 4.76 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.4-2.07 2.85V21H10z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h5>El programa</h5>
+          <ul>
+            <li><a href="index.html">Sobre nosotros</a></li>
+            <li><a href="intercambio.html">Intercambio</a></li>
+            <li><a href="pasantias.html">Pasantías</a></li>
+            <li><a href="viajes.html">Viajes académicos</a></li>
+            <li><a href="especializacion.html">Especialización</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Destinos</h5>
+          <ul>
+            <li><a href="index.html#mapa">Mapa mundial</a></li>
+            <li><a href="destinos.html">Movilidades disponibles</a></li>
+            <li><a href="destinos.html#proximas">Próximas oportunidades</a></li>
+            <li><a href="estudiantes.html">Testimonios</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="mailto:uvgglobal@uvg.edu.gt">uvgglobal@uvg.edu.gt</a></li>
+            <li><a href="tel:+50225071500">Tel.: 2507-1500 Ext.: 21593</a></li>
+            <li><a href="https://www.uvg.edu.gt" target="_blank" rel="noopener">uvg.edu.gt</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-base">
+        <span>© 2026 Universidad del Valle de Guatemala · 60 años</span>
+        <span>Diseñado para Relaciones Internacionales · UVG Global</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

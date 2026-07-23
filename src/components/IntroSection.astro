@@ -1,0 +1,35 @@
+---
+const stats = [
+  { num: "25", plus: true, label: "Universidades aliadas" },
+  { num: "14", plus: false, label: "Países de destino" },
+  { num: "4", plus: false, label: "Continentes" },
+  { num: "60", plus: true, label: "Años de tradición UVG" },
+];
+---
+
+<section id="programa" class="intro" data-screen-label="02 Programa">
+  <div class="wrap">
+    <div class="intro-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>El programa</div>
+      </div>
+      <div class="intro-body">
+        <p>
+          El Programa de Intercambios Estudiantiles ofrece estancias académicas de uno o dos semestres en una universidad extranjera aliada con la UVG.
+        </p>
+        <p>
+          Cursos convalidados, redes de contacto internacionales y una experiencia personal que transforma carreras enteras. Más de 60 años de tradición académica abren puertas en cuatro continentes.
+        </p>
+      </div>
+    </div>
+
+    <div class="intro-stats">
+      {stats.map((s) => (
+        <div class="stat">
+          <div class="num">{s.num}{s.plus && <span class="plus">+</span>}</div>
+          <div class="label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
