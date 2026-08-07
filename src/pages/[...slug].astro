@@ -1,0 +1,43 @@
+---
+// src/pages/[...slug].astro
+import Footer from "../components/common/Footer.astro";
+import Header from "../components/common/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import Start from "../components/inner_pages/start.astro";
+import Destinations from "../components/inner_pages/destinations.astro";
+import Exchanges from "../components/inner_pages/exchanges.astro";
+import Internships from "../components/inner_pages/internships.astro";
+import Testimonies from "../components/inner_pages/testimonies.astro";
+import Trips from "../components/inner_pages/trips.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: undefined } },          // "/"
+    { params: { slug: "destinations" } },
+    { params: { slug: "exchanges" } },
+    { params: { slug: "internships" } },
+    { params: { slug: "testimonies" } },
+    { params: { slug: "trips" } },
+  ];
+}
+
+const routes: Record<string, any> = {
+  "": Start,               // slug is undefined -> "" -> root
+  "destinations": Destinations,
+  "exchanges": Exchanges,
+  "internships": Internships,
+  "testimonies": Testimonies,
+  "trips": Trips,
+};
+
+const { slug } = Astro.params;
+const path = "/" + (slug ?? "");
+const Page = routes[slug ?? ""]; // ?? NotFound
+---
+
+<BaseLayout title="Inicio — UVG Global · Relaciones Internacionales">
+  <Header active={path} />
+  <Page />
+  <Footer />
+</BaseLayout>
