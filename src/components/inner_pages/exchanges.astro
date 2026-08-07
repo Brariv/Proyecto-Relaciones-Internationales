@@ -1,0 +1,59 @@
+---
+import ModalitiesSection from "../../components/common/ModalitiesSection.astro";
+import DestinationsRedirectSection from "../../components/common/DestinationsRedirectSection.astro";
+import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+
+const requirements = [
+  { icon: "4º", title: "4º semestre", text: "Estar cursando como mínimo el cuarto semestre de tu carrera al momento del intercambio." },
+  { icon: "80", title: "Promedio ≥ 80", text: "Promedio general mínimo de 80 puntos en tu expediente académico UVG." },
+  { icon: "✓", title: "Aval del director", text: "Acuerdo académico avalado por el director de tu carrera, sin llamadas de atención en expediente." },
+  { icon: "⌖", title: "Pasaporte vigente", text: "Y, si la universidad anfitriona lo requiere, certificado oficial del idioma de instrucción." },
+];
+
+const steps = [
+  {
+    title: "Agendar asesoría y explorar opciones",
+    items: [
+      "Escribir a uvgglobal@uvg.edu.gt",
+      "Explorar destinos, modalidades y plazos de nominación",
+      "Definir país y universidad anfitriona",
+    ],
+  },
+  {
+    title: "Acuerdo académico y nominación",
+    items: [
+      "Llenar el acuerdo académico",
+      "Validación con el director de tu carrera",
+      "UVG nomina al estudiante ante la universidad anfitriona",
+    ],
+  },
+  {
+    title: "Aplicación, visa y orientación",
+    items: [
+      "Llenar formularios de la universidad anfitriona",
+      "Solicitar visa de estudiante",
+      "Firmar eximente · Asistir a la sesión de orientación previa al viaje",
+    ],
+  },
+  {
+    title: "Convalidación al regreso",
+    items: [
+      "Solicitud de convalidación · Certificado oficial de notas",
+      "Programas originales sellados y firmados",
+      "Compartir experiencia académica y cultural con tu facultad",
+    ],
+  },
+];
+---
+
+<main id="top">
+  <ModalitiesSection />
+  <DestinationsRedirectSection />
+  <ApplyProcessSection
+    scope="Intercambio"
+    title="El camino, paso a paso."
+    kicker="Cuatro etapas y un solo punto de contacto para empezar tu intercambio. Antes de aplicar revisa los requisitos generales — son los mismos para las tres modalidades."
+    requirements={requirements}
+    steps={steps}
+  />
+</main>

@@ -1,0 +1,58 @@
+---
+// Generic "Cómo aplicar" section — shape (4 requirement cards + 4 step
+// cards) is shared across Intercambio, Pasantías, Viajes, etc. in the
+// handoff design; only the copy differs per page, so it's passed in as
+// props instead of duplicating this markup on every inner page.
+export interface Requirement {
+  icon: string;
+  title: string;
+  text: string;
+}
+export interface Step {
+  title: string;
+  items: string[];
+}
+export interface Props {
+  /** eyebrow suffix, e.g. "Intercambio" — rendered as "Cómo aplicar · <scope>" */
+  scope: string;
+  title: string;
+  kicker: string;
+  requirements: Requirement[];
+  steps: Step[];
+}
+
+const { scope, title, kicker, requirements, steps } = Astro.props;
+---
+
+<section id="aplicar" class="proceso proceso--light" data-screen-label="Cómo aplicar">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Cómo aplicar · {scope}</div>
+        <h2 class="section-title">{title}</h2>
+      </div>
+      <p class="section-kicker">{kicker}</p>
+    </div>
+
+    <div class="req-grid">
+      {requirements.map((r) => (
+        <div class="req-card">
+          <div class="icon">{r.icon}</div>
+          <h5>{r.title}</h5>
+          <p>{r.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="steps">
+      {steps.map((s) => (
+        <article class="step">
+          <h4>{s.title}</h4>
+          <ul>
+            {s.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

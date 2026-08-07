@@ -1,0 +1,42 @@
+---
+import { DESTINATIONS } from "../../data/destinations.js";
+
+// Region order matches the handoff design; counts are derived from the
+// shared DESTINATIONS dataset (same source the world map uses) instead of
+// hardcoding stale numbers.
+const regionOrder = ["América Latina", "Norteamérica", "Europa", "Asia"];
+const counts = DESTINATIONS.reduce((acc, d) => {
+  acc[d.region] = (acc[d.region] ?? 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+const regions = regionOrder.map((name) => ({ name, count: counts[name] ?? 0 }));
+---
+
+<section class="dest-redirect" data-screen-label="Explora destinos">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>¿A dónde quieres ir?</div>
+        <h2 class="section-title">Explora los destinos <em>por región.</em></h2>
+      </div>
+      <p class="section-kicker">Tenemos convenios activos en cuatro continentes. Descubre cada universidad aliada, sus fechas e idioma de instrucción en la sección de destinos.</p>
+    </div>
+    <div class="region-grid">
+      {regions.map((r) => (
+        <a class="region-card" href="/destinations">
+          <div class="rc-count">{r.count}</div>
+          <div class="rc-name">
+            {r.name}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+          </div>
+        </a>
+      ))}
+    </div>
+    <div class="redirect-cta">
+      <a class="btn btn--primary" href="/destinations" style="background-color:#8BC53F;color:#00562F;">
+        Ver todos los destinos
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

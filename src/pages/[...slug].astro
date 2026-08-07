@@ -31,12 +31,24 @@ const routes: Record<string, any> = {
   "trips": Trips,
 };
 
+const meta: Record<string, { title: string; description: string }> = {
+  "": {
+    title: "Inicio — UVG Global · Relaciones Internacionales",
+    description: "Programa de Relaciones Internacionales de la UVG: intercambios, mapa mundial de destinos y movilidad estudiantil.",
+  },
+  "exchanges": {
+    title: "Intercambio — UVG Global · Relaciones Internacionales",
+    description: "Modalidades de intercambio estudiantil de la UVG y cómo aplicar: convenio, convenio + beca y estudiante visitante.",
+  },
+};
+
 const { slug } = Astro.params;
 const path = "/" + (slug ?? "");
 const Page = routes[slug ?? ""]; // ?? NotFound
+const pageMeta = meta[slug ?? ""] ?? meta[""];
 ---
 
-<BaseLayout title="Inicio — UVG Global · Relaciones Internacionales">
+<BaseLayout title={pageMeta.title} description={pageMeta.description}>
   <Header active={path} />
   <Page />
   <Footer />

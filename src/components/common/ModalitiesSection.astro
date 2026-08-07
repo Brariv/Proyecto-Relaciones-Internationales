@@ -1,0 +1,53 @@
+---
+const modalities = [
+  {
+    num: "01",
+    title: "Intercambio con convenio",
+    text: "La estancia se realiza en una universidad extranjera con la que UVG mantiene un convenio activo de movilidad. Sin pago de matrícula en la universidad anfitriona.",
+    tags: ["Sin tuition", "Convalidación directa"],
+  },
+  {
+    num: "02",
+    title: "Intercambio con convenio + beca",
+    text: "Igual que la modalidad de convenio, pero la estancia es patrocinada parcial o totalmente por una institución externa con un programa de beca.",
+    tags: ["Beca externa", "Cobertura total o parcial"],
+  },
+  {
+    num: "03",
+    title: "Estudiante visitante",
+    text: "El estudiante se matricula directamente en una universidad extranjera sin convenio con UVG. Asume los costos de colegiatura y manutención del programa.",
+    tags: ["Libertad de programa", "Pago al 50% de convalidación"],
+  },
+];
+---
+
+<section id="modalidades" class="section section--cream" data-screen-label="04 Movilidad">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Tres modalidades</div>
+        <h2 class="section-title">Distintos caminos para llegar al mismo lugar: <em style="font-style:italic;color:var(--uvg-green-soft);">el mundo.</em></h2>
+      </div>
+      <p class="section-kicker">
+        Tu intercambio puede tomar tres formas, dependiendo del convenio que tenga UVG con la universidad anfitriona y de tu acceso a programas de beca externa.
+      </p>
+    </div>
+
+    <div class="modal-grid">
+      {modalities.map((m) => (
+        <a class="modal-card" href="/destinations">
+          <div class="num">{m.num}</div>
+          <h3>{m.title}</h3>
+          <p>{m.text}</p>
+          <div class="tags">
+            {m.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+          <span class="go">
+            Ver destinos
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
