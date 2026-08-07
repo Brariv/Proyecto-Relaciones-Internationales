@@ -40,6 +40,7 @@
 
               typescript-language-server
               typescript
+
             ];
           };
 
