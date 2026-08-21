@@ -3,6 +3,8 @@
 
 Cada pagina de formato tendra su propio directorio con como estaran puesto cada uno de sus diferentes componentes
 
+> Implementación: ver [`/data`](../data/README.md) — un directorio por inner page, un documento markdown por componente, cargado vía `src/lib/content.ts` (local o desde un bucket remoto con `CONTENT_BASE_URL`).
+
 
 ## Destinos
 - Convenios

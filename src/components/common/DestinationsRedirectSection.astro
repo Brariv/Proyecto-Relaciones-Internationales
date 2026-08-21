@@ -1,11 +1,15 @@
 ---
-import { DESTINATIONS } from "../../data/destinations.js";
+import { loadComponentContent } from "../../lib/content";
+import { normalizeDestination } from "../../lib/destinations";
 
 // Region order matches the handoff design; counts are derived from the
-// shared DESTINATIONS dataset (same source the world map uses) instead of
-// hardcoding stale numbers.
+// shared data/start/map.md dataset (same source the world map uses) instead
+// of hardcoding stale numbers.
+const { items } = await loadComponentContent("start", "map");
+const destinations = items.map(normalizeDestination);
+
 const regionOrder = ["América Latina", "Norteamérica", "Europa", "Asia"];
-const counts = DESTINATIONS.reduce((acc, d) => {
+const counts = destinations.reduce((acc, d) => {
   acc[d.region] = (acc[d.region] ?? 0) + 1;
   return acc;
 }, {} as Record<string, number>);

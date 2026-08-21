@@ -1,4 +1,8 @@
 ---
+// Map markers are loaded from data/start/map.md (see docs/Format_Page.md > Inicio > Mapa).
+import { loadComponentContent } from "../../lib/content";
+import { normalizeDestination } from "../../lib/destinations";
+
 const filters = [
   { value: "all", label: "Todos" },
   { value: "available", label: "Disponibles" },
@@ -8,6 +12,9 @@ const filters = [
   { value: "Europa", label: "Europa" },
   { value: "Asia", label: "Asia" },
 ];
+
+const { items } = await loadComponentContent("start", "map");
+const destinations = items.map(normalizeDestination);
 ---
 
 <section id="mapa" class="map-section" data-screen-label="03 Mapa mundial">
@@ -47,15 +54,22 @@ const filters = [
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 
+<script is:inline define:vars={{ destinations }}>
+  window.__UVG_DESTINATIONS__ = destinations;
+</script>
+
 <script>
-  import { DESTINATIONS, COUNTRY_NAME_MAP } from "../../data/destinations.js";
+  import { COUNTRY_NAME_MAP } from "../../data/countryNameMap.js";
 
   declare global {
     interface Window {
       d3: any;
       topojson: any;
+      __UVG_DESTINATIONS__: any[];
     }
   }
+
+  const DESTINATIONS = window.__UVG_DESTINATIONS__;
 
   function selectDestination(id: string) {
     const d = DESTINATIONS.find((x) => x.id === id);
