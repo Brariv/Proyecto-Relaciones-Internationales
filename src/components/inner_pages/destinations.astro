@@ -1,0 +1,107 @@
+---
+// Destinos disponibles y próximas oportunidades. Reutiliza el mismo dataset
+// que el mapa mundial de Inicio (data/start/map.md) — es la fuente única de
+// verdad para los destinos UVG Global, tal como en el prototipo original
+// (map.js alimenta tanto el mapa como esta página con el mismo arreglo).
+import { loadComponentContent } from "../../lib/content";
+import { normalizeDestination } from "../../lib/destinations";
+
+const regions = ["América Latina", "Norteamérica", "Europa", "Asia"];
+
+const { items } = await loadComponentContent("start", "map");
+const destinations = items.map(normalizeDestination);
+const available = destinations.filter((d) => d.status === "available");
+const upcoming = destinations.filter((d) => d.status === "upcoming");
+---
+
+<main id="top">
+  <section id="destinos" class="destinos" data-screen-label="09 Destinos">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>Movilidades disponibles</div>
+          <h2 class="section-title">Convenios activos con universidades aliadas.</h2>
+        </div>
+        <p class="section-kicker">
+          Estos destinos cuentan con convenio firmado y movilidad activa para los ciclos 2026–2027. Selecciona uno para conocer fechas, cupos e idioma de instrucción.
+        </p>
+      </div>
+
+      <div class="filter-bar" role="tablist">
+        <button type="button" data-dest-filter="all" class="active">Todos</button>
+        {regions.map((r) => <button type="button" data-dest-filter={r}>{r}</button>)}
+        <span class="count" data-dest-count>{available.length} destinos activos</span>
+      </div>
+
+      <div class="dest-grid" id="dest-grid">
+        {available.map((d) => (
+          <article class="dest-card" data-region={d.region}>
+            <div class="photo">
+              <span class="flag-row"><span class="flag">{d.flag}</span> {d.country}</span>
+            </div>
+            <div class="body">
+              <div class="city">{d.city}</div>
+              <h3>{d.uni}</h3>
+              <div class="meta">
+                <span class="pill green">{d.region}</span>
+                <span class="pill">{d.idioma.split("/")[0].trim()}</span>
+              </div>
+              <div class="foot">
+                <span>{d.cupos} · cupos</span>
+                <a class="arrow" href={`/?dest=${d.id}#mapa`} aria-label={`Ver detalles de ${d.uni}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="proximas" class="upcoming" data-screen-label="10 Próximas oportunidades">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>En gestión</div>
+          <h2 class="section-title">Próximas oportunidades.</h2>
+        </div>
+        <p class="section-kicker">
+          Convenios en negociación o pendientes de activación para los ciclos siguientes. Si te interesa alguno, agenda una cita con la oficina para conocer el estado y los plazos estimados.
+        </p>
+      </div>
+
+      <div class="upcoming-grid" id="upcoming-grid">
+        {upcoming.map((d) => (
+          <a class="up-row" href={d.site} target="_blank" rel="noopener">
+            <span class="flag-big">{d.flag}</span>
+            <div class="info">
+              <h4>{d.uni}</h4>
+              <div class="sub">{d.city}, {d.country} · {d.region}</div>
+            </div>
+            <span class="status"><span class="pulse"></span>Próximo</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const grid = document.getElementById("dest-grid");
+  const countEl = document.querySelector("[data-dest-count]");
+  document.querySelectorAll<HTMLButtonElement>("[data-dest-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-dest-filter]").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const f = btn.dataset.destFilter;
+      let visible = 0;
+      grid?.querySelectorAll<HTMLElement>(".dest-card").forEach((card) => {
+        const show = f === "all" || card.dataset.region === f;
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      if (countEl) countEl.textContent = `${visible} destinos`;
+    });
+  });
+</script>
