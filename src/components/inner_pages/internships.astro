@@ -1,0 +1,95 @@
+---
+import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+import { loadComponentContent } from "../../lib/content";
+
+interface InternshipItem {
+  nombre: string;
+  bandera: string;
+  pais: string;
+  continente: string;
+  detalles: string;
+  labels: string[];
+}
+
+const { items: internships } = await loadComponentContent<InternshipItem>("internships", "programs");
+
+const points = [
+  { mk: "↗", text: "<strong>Experiencia profesional internacional</strong> que enriquece tu CV antes de graduarte." },
+  { mk: "€", text: "<strong>Algunas pasantías son remuneradas</strong> o incluyen apoyo en alojamiento, visado y permisos." },
+  { mk: "✓", text: "<strong>Acompañamiento de la CDI</strong> en cartas, visa de prácticas y orientación previa al viaje." },
+];
+
+const requirements = [
+  { icon: "✓", title: "Inscripción vigente", text: "Ser estudiante activo de la UVG con buen récord académico." },
+  { icon: "CV", title: "CV actualizado", text: "Currículum y carta de motivación, idealmente en el idioma del destino." },
+  { icon: "A1", title: "Idioma", text: "Nivel de idioma acorde a la empresa o institución anfitriona." },
+  { icon: "⌖", title: "Pasaporte vigente", text: "Y disponibilidad para tramitar la visa de prácticas correspondiente." },
+];
+
+const steps = [
+  {
+    title: "Contactar a la CDI",
+    items: ["Escribir a uvgglobal@uvg.edu.gt", "Agendar una asesoría de orientación", "Definir intereses, carrera y país de destino"],
+  },
+  {
+    title: "Definir la pasantía",
+    items: ["Elegir empresa o institución anfitriona", "Confirmar modalidad: convenio o visitante", "Revisar duración, requisitos y apoyo disponible"],
+  },
+  {
+    title: "Aplicación y documentos",
+    items: ["Preparar CV y carta de motivación", "Completar formularios de la institución", "Gestionar cartas de respaldo de la UVG"],
+  },
+  {
+    title: "Visa, permisos y orientación",
+    items: ["Tramitar visa de prácticas y permisos", "Firmar eximente y seguro", "Asistir a la orientación previa al viaje"],
+  },
+];
+---
+
+<main id="top">
+  <section id="pasantias" class="pasantias" data-screen-label="07 Pasantías">
+    <div class="wrap">
+      <div class="pas-top">
+        <div class="pas-intro">
+          <div class="eyebrow"><span class="dot"></span>Pasantías internacionales</div>
+          <h2 class="section-title">Práctica profesional, <em style="font-style:italic;color:var(--uvg-green-soft);">en otro país.</em></h2>
+          <p class="lead">
+            Más allá del aula, la UVG abre puertas a pasantías y prácticas académicas en empresas e instituciones extranjeras. Una forma de sumar experiencia profesional real mientras conoces una nueva cultura de trabajo.
+          </p>
+          <ul class="pas-points">
+            {points.map((pt) => (
+              <li><span class="mk">{pt.mk}</span><span set:html={pt.text} /></li>
+            ))}
+          </ul>
+        </div>
+        <div class="pas-photo">
+          <div class="badge">
+            <div class="label">Duración típica</div>
+            <div class="txt">De 3 a 10 meses según el programa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pas-grid">
+        {internships.map((it) => (
+          <article class="pas-card">
+            <div class="flag-line"><span class="fl">{it.bandera}</span> {it.pais} · {it.continente}</div>
+            <h3>{it.nombre}</h3>
+            <p>{it.detalles}</p>
+            <div class="pas-tags">
+              {it.labels.map((l) => <span class="tag">{l}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ApplyProcessSection
+    scope="Pasantías"
+    title="De la idea a la práctica."
+    kicker="La CDI te acompaña en cada paso para conseguir una pasantía internacional, ya sea por convenio o como estudiante visitante."
+    requirements={requirements}
+    steps={steps}
+  />
+</main>
