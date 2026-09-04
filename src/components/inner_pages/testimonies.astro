@@ -1,0 +1,58 @@
+---
+import { loadComponentContent } from "../../lib/content";
+
+interface TestimonyItem {
+  nombre: string;
+  modalidad: string;
+  universidad: string;
+  descripcion: string;
+  tipoDeEstudio: string;
+  facultad: string;
+  imagen: string;
+}
+
+const { items: exchanges } = await loadComponentContent<TestimonyItem>("testimonies", "exchanges");
+const { items: internships } = await loadComponentContent<TestimonyItem>("testimonies", "internships");
+const { items: trips } = await loadComponentContent<TestimonyItem>("testimonies", "trips");
+
+const groups = [
+  { title: "Intercambio", items: exchanges },
+  { title: "Pasantías", items: internships },
+  { title: "Viajes académicos", items: trips },
+];
+---
+
+<main id="top">
+  <section id="testimonios" class="testim" data-screen-label="Testimonios">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>La experiencia UVG</div>
+          <h2 class="section-title">Estudiantes que ya están <em style="font-style:italic;color:var(--uvg-green-soft);">en el mundo.</em></h2>
+        </div>
+        <p class="section-kicker">Voces de quienes ya dieron el paso — agrupadas por el tipo de experiencia que vivieron.</p>
+      </div>
+
+      {groups.map((g) => (
+        <>
+          <div class="testim-cat"><h3>{g.title}</h3></div>
+          <div class="testim-grid">
+            {g.items.map((t) => (
+              <article class="testim-card">
+                <div class="photo"></div>
+                <div class="mod">{t.modalidad}</div>
+                <div class="name">{t.nombre}</div>
+                <div class="where">{t.universidad}</div>
+                <blockquote>{t.descripcion}</blockquote>
+                <div class="career">
+                  <strong>{t.tipoDeEstudio}</strong><br />
+                  {t.facultad}
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      ))}
+    </div>
+  </section>
+</main>
