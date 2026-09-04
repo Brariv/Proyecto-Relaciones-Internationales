@@ -1,0 +1,104 @@
+---
+import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+import { loadComponentContent } from "../../lib/content";
+
+interface ProgramItem {
+  titulo: string;
+  badge: string;
+  descripcion: string;
+  universidad: string;
+  semestre: string;
+  cursos: string;
+  costo: string;
+  labels: string[];
+  imagen: string;
+}
+
+const { items: programs } = await loadComponentContent<ProgramItem>("specialization", "programs");
+
+const requirements = [
+  { icon: "7º", title: "Penúltimo año", text: "Estar al menos en el penúltimo año de tu carrera al presentar la aplicación." },
+  { icon: "85", title: "Promedio ≥ 85", text: "Promedio acumulado mínimo de 85 puntos, sin llamadas de atención en tu expediente." },
+  { icon: "B2", title: "Inglés B2", text: "Constancia de dominio del idioma inglés con nivel B2 como mínimo." },
+  { icon: "✎", title: "Carta y CV", text: "Carta de motivación, CV y compromiso de completar el programa y cubrir los costos." },
+];
+
+const steps = [
+  {
+    title: "Convocatoria y aplicación",
+    items: [
+      "En julio la decanatura envía el formulario electrónico",
+      "Adjuntar carta de motivación, CV y constancia de inglés B2",
+      "Confirmar el compromiso de cubrir los costos del programa",
+    ],
+  },
+  {
+    title: "Selección por comité",
+    items: [
+      "Se evalúan requisitos, logros y actividades extracurriculares",
+      "Participación en el laboratorio aeroespacial (para aeroespacial)",
+      "Los seleccionados se notifican en agosto",
+    ],
+  },
+  {
+    title: "Nominación y semestre en el exterior",
+    items: [
+      "UVG nomina al estudiante ante JMU (aeroespacial) o UEM (aeronáutica)",
+      "Cursar 5 cursos (al menos 3 de la especialidad), en inglés",
+      "Tramitar visa, seguro médico y alojamiento",
+    ],
+  },
+  {
+    title: "Convalidación en UVG",
+    items: [
+      "Convalidar al menos 3 cursos por Tópicos 1, 2 y 3",
+      "Aprobados con el equivalente a 70 puntos de nota",
+      "Se paga el 50% del costo de cada curso convalidado",
+    ],
+  },
+];
+---
+
+<main id="top">
+  <section id="especializacion" class="pasantias espec-hero" data-screen-label="Especialización">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>Especialización</div>
+          <h2 class="section-title">Especialízate en <em style="font-style:italic;color:var(--uvg-green-soft);">ingeniería de vuelo.</em></h2>
+        </div>
+        <p class="section-kicker">La Facultad de Ingeniería ofrece dos especialidades que implican un semestre adicional de estudios en una universidad del exterior. El diploma de la especialidad lo otorga la UVG al convalidar los cursos aprobados.</p>
+      </div>
+      <div class="espec-grid espec-grid--two">
+        {programs.map((p) => (
+          <article class="espec-card">
+            <div class="photo">
+              <span class="lvl">{p.badge}</span>
+            </div>
+            <div class="body">
+              <h3>{p.titulo}</h3>
+              <p>{p.descripcion}</p>
+              <dl class="espec-facts">
+                <div class="ef"><dt>Universidad</dt><dd><strong>{p.universidad}</strong></dd></div>
+                <div class="ef"><dt>Semestre</dt><dd>{p.semestre}</dd></div>
+                <div class="ef"><dt>Cursos</dt><dd>{p.cursos}</dd></div>
+                <div class="ef"><dt>Costo</dt><dd>{p.costo}</dd></div>
+              </dl>
+              <div class="espec-tags">
+                {p.labels.map((l) => <span class="tag">{l}</span>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ApplyProcessSection
+    scope="Especialización"
+    title={"Convocatoria anual en julio."}
+    kicker="La decanatura de la Facultad de Ingeniería abre la convocatoria cada año en julio y envía el formulario a través de los departamentos. Un comité selecciona a los participantes y los notifica en agosto."
+    requirements={requirements}
+    steps={steps}
+  />
+</main>
