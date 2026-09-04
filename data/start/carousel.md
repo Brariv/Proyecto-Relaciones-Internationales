@@ -32,11 +32,6 @@ items:
     redireccion: "/#map"
     meta: "25+ universidades aliadas"
 
-  - titulo: "Aprender a vivir solo en Madrid y madurar en el camino"
-    descripcion: "Testimonio"
-    footer: "Leer historia"
-    redireccion: "/testimonies"
-    meta: "Gabriel Ruata · Madrid 🇪🇸"
 ---
 
 # Inicio · Carusel
