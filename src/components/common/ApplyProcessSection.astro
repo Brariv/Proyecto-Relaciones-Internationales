@@ -15,6 +15,7 @@ export interface Step {
 export interface Props {
   /** eyebrow suffix, e.g. "Intercambio" — rendered as "Cómo aplicar · <scope>" */
   scope: string;
+  /** May contain inline markup (e.g. "Convocatoria anual en <em>julio.</em>") */
   title: string;
   kicker: string;
   requirements: Requirement[];
@@ -29,7 +30,7 @@ const { scope, title, kicker, requirements, steps } = Astro.props;
     <div class="section-head section-head--split">
       <div>
         <div class="eyebrow"><span class="dot"></span>Cómo aplicar · {scope}</div>
-        <h2 class="section-title">{title}</h2>
+        <h2 class="section-title" set:html={title} />
       </div>
       <p class="section-kicker">{kicker}</p>
     </div>

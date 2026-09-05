@@ -8,6 +8,7 @@ import Start from "../components/inner_pages/start.astro";
 import Destinations from "../components/inner_pages/destinations.astro";
 import Exchanges from "../components/inner_pages/exchanges.astro";
 import Internships from "../components/inner_pages/internships.astro";
+import Specialization from "../components/inner_pages/specialization.astro";
 import Testimonies from "../components/inner_pages/testimonies.astro";
 import Trips from "../components/inner_pages/trips.astro";
 
@@ -17,6 +18,7 @@ export function getStaticPaths() {
     { params: { slug: "destinations" } },
     { params: { slug: "exchanges" } },
     { params: { slug: "internships" } },
+    { params: { slug: "specialization" } },
     { params: { slug: "testimonies" } },
     { params: { slug: "trips" } },
   ];
@@ -27,6 +29,7 @@ const routes: Record<string, any> = {
   "destinations": Destinations,
   "exchanges": Exchanges,
   "internships": Internships,
+  "specialization": Specialization,
   "testimonies": Testimonies,
   "trips": Trips,
 };
@@ -39,6 +42,26 @@ const meta: Record<string, { title: string; description: string }> = {
   "exchanges": {
     title: "Intercambio — UVG Global · Relaciones Internacionales",
     description: "Modalidades de intercambio estudiantil de la UVG y cómo aplicar: convenio, convenio + beca y estudiante visitante.",
+  },
+  "internships": {
+    title: "Pasantías — UVG Global · Relaciones Internacionales",
+    description: "Pasantías y prácticas profesionales internacionales de la UVG y cómo aplicar.",
+  },
+  "specialization": {
+    title: "Especialización — UVG Global · Relaciones Internacionales",
+    description: "Posgrados, maestrías, dobles titulaciones y estancias de investigación en universidades aliadas de la UVG.",
+  },
+  "trips": {
+    title: "Viajes Académicos — UVG Global · Relaciones Internacionales",
+    description: "Viajes académicos UVG 2026: Alemania, Pittsburgh y Boston, y cómo aplicar.",
+  },
+  "destinations": {
+    title: "Destinos — UVG Global · Relaciones Internacionales",
+    description: "Destinos con convenio activo y próximas oportunidades de intercambio académico de la UVG.",
+  },
+  "testimonies": {
+    title: "Testimonios — UVG Global · Relaciones Internacionales",
+    description: "Testimonios de estudiantes UVG en intercambios, pasantías y viajes académicos internacionales.",
   },
 };
 

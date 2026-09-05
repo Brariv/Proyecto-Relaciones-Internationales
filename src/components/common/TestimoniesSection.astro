@@ -1,0 +1,124 @@
+---
+const categories = [
+  {
+    name: "Intercambio",
+    testimonials: [
+      {
+        mod: "Modalidad · Convenio-Beca",
+        name: "Adriana López Orozco",
+        where: "🇳🇴 University of South-Eastern Norway · Noruega",
+        quote: "El país de destino es un líder en Gestión Sostenible. La universidad tiene múltiples programas en Sostenibilidad y Ecología que me llamaron mucho la atención.",
+        career: "Maestría en Gestión Ambiental y Sostenibilidad",
+        faculty: "Facultad de Ciencias y Humanidades",
+      },
+      {
+        mod: "Modalidad · Visitante",
+        name: "Gabriel Ruata Giordano",
+        where: "🇪🇸 Universidad Complutense de Madrid · España",
+        quote: "He aprendido bastante no solo en lo académico sino también en lo personal. Madurar como persona, aprender a vivir solo y adaptarse a un sistema totalmente nuevo.",
+        career: "Licenciatura en Ingeniería Industrial",
+        faculty: "Facultad de Ingeniería",
+      },
+      {
+        mod: "Modalidad · Convenio",
+        name: "Wenderlly López Zarceno",
+        where: "🇪🇸 Universidad de Granada · España",
+        quote: "La experiencia ha superado mis expectativas en varios aspectos. Conocer una nueva cultura, crecer personalmente y complementar mi formación en una universidad reconocida.",
+        career: "Ingeniería en Ciencias de la Administración",
+        faculty: "Bridge Business School",
+      },
+    ],
+  },
+  {
+    name: "Pasantías",
+    testimonials: [
+      {
+        mod: "Pasantía · Komatsu",
+        name: "Nombre del estudiante",
+        where: "🇯🇵 Universidad de Komatsu · Japón",
+        quote: "Espacio reservado para el testimonio de un estudiante que realizó su pasantía. Comparte su experiencia profesional y cultural.",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+      {
+        mod: "Pasantía · Disney / CMU",
+        name: "Nombre del estudiante",
+        where: "🇺🇸 Disney Academic Exchange · EE.UU.",
+        quote: "Espacio reservado para el testimonio de un estudiante que participó en el programa. Comparte cómo fue la experiencia laboral.",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+      {
+        mod: "Pasantía · A tu medida",
+        name: "Nombre del estudiante",
+        where: "🌎 Institución anfitriona · País",
+        quote: "Espacio reservado para el testimonio de un estudiante con una pasantía gestionada a su medida por la CDI.",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+    ],
+  },
+  {
+    name: "Viajes académicos",
+    testimonials: [
+      {
+        mod: "Viaje · Alemania",
+        name: "Nombre del estudiante",
+        where: "🇩🇪 Alemania 2026",
+        quote: "Espacio reservado para el testimonio de un estudiante que participó en el viaje académico. Comparte qué aprendió al visitar las plantas e instituciones.",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+      {
+        mod: "Viaje · Pittsburgh",
+        name: "Nombre del estudiante",
+        where: "🇺🇸 Pittsburgh 2026",
+        quote: "Espacio reservado para el testimonio de un estudiante del viaje a Pittsburgh (CMU, Duolingo y la charla de Neil deGrasse Tyson).",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+      {
+        mod: "Viaje · Boston",
+        name: "Nombre del estudiante",
+        where: "🇺🇸 Boston 2026",
+        quote: "Espacio reservado para el testimonio de un estudiante del viaje a Boston (MIT, Sasaki y The New York Times).",
+        career: "Carrera del estudiante",
+        faculty: "Facultad · UVG",
+      },
+    ],
+  },
+];
+---
+
+<section id="testimonios" class="testim" data-screen-label="Testimonios">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>La experiencia UVG</div>
+        <h2 class="section-title">Estudiantes que ya están <em style="font-style:italic;color:var(--uvg-green-soft);">en el mundo.</em></h2>
+      </div>
+      <p class="section-kicker">Voces de quienes ya dieron el paso — agrupadas por el tipo de experiencia que vivieron.</p>
+    </div>
+
+    {categories.map((cat) => (
+      <>
+        <div class="testim-cat"><h3>{cat.name}</h3></div>
+        <div class="testim-grid">
+          {cat.testimonials.map((t) => (
+            <article class="testim-card">
+              <div class="photo"></div>
+              <div class="mod">{t.mod}</div>
+              <div class="name">{t.name}</div>
+              <div class="where">{t.where}</div>
+              <blockquote>{t.quote}</blockquote>
+              <div class="career">
+                <strong>{t.career}</strong><br />
+                {t.faculty}
+              </div>
+            </article>
+          ))}
+        </div>
+      </>
+    ))}
+  </div>
+</section>

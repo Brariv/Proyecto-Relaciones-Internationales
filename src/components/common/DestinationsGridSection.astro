@@ -1,0 +1,79 @@
+---
+import { DESTINATIONS } from "../../data/destinations.js";
+
+const available = DESTINATIONS.filter((d) => d.status === "available");
+
+const filters = [
+  { value: "all", label: "Todos" },
+  { value: "América Latina", label: "América Latina" },
+  { value: "Norteamérica", label: "Norteamérica" },
+  { value: "Europa", label: "Europa" },
+  { value: "Asia", label: "Asia" },
+];
+---
+
+<section id="destinos" class="destinos" data-screen-label="09 Destinos">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Movilidades disponibles</div>
+        <h2 class="section-title">Convenios activos con universidades aliadas.</h2>
+      </div>
+      <p class="section-kicker">
+        Estos destinos cuentan con convenio firmado y movilidad activa para los ciclos 2026–2027. Selecciona uno para conocer fechas, cupos e idioma de instrucción.
+      </p>
+    </div>
+
+    <div class="filter-bar" role="tablist">
+      {filters.map((f, i) => (
+        <button type="button" data-dest-filter={f.value} class:list={[{ active: i === 0 }]}>{f.label}</button>
+      ))}
+      <span class="count" data-dest-count>{available.length} destinos activos</span>
+    </div>
+
+    <div class="dest-grid" id="dest-grid">
+      {available.map((d) => (
+        <article class="dest-card" data-region={d.region} data-country={d.country.toLowerCase()}>
+          <div class="photo">
+            <span class="flag-row"><span class="flag">{d.flag}</span> {d.country}</span>
+          </div>
+          <div class="body">
+            <div class="city">{d.city}</div>
+            <h3>{d.uni}</h3>
+            <div class="meta">
+              <span class="pill green">{d.region}</span>
+              <span class="pill">{d.idioma.split("/")[0].trim()}</span>
+            </div>
+            <div class="foot">
+              <span>{d.cupos} · cupos</span>
+              <a class="arrow" href={`/?dest=${d.id}#mapa`} aria-label={`Ver detalles de ${d.uni}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const grid = document.getElementById("dest-grid");
+  const countEl = document.querySelector("[data-dest-count]");
+  const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>(".dest-card")) : [];
+
+  document.querySelectorAll<HTMLButtonElement>("[data-dest-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-dest-filter]").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const f = btn.dataset.destFilter;
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = f === "all" || card.dataset.region === f;
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      if (countEl) countEl.textContent = visible + " destinos";
+    });
+  });
+</script>

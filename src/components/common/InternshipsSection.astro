@@ -1,0 +1,72 @@
+---
+const points = [
+  { mk: "↗", strong: "Experiencia profesional internacional", text: "que enriquece tu CV antes de graduarte." },
+  { mk: "€", strong: "Algunas pasantías son remuneradas", text: "o incluyen apoyo en alojamiento, visado y permisos." },
+  { mk: "✓", strong: "Acompañamiento de la CDI", text: "en cartas, visa de prácticas y orientación previa al viaje." },
+];
+
+const cards = [
+  {
+    flag: "🇯🇵",
+    place: "Japón · Asia",
+    title: "Pasantías en la Universidad de Komatsu",
+    text: "Prácticas académicas de hasta 10 meses con apoyo en alojamiento, visa y permisos para estudiantes de áreas técnicas y de ingeniería.",
+    tags: ["Hasta 10 meses", "Apoyo en visado"],
+  },
+  {
+    flag: "🇺🇸",
+    place: "Estados Unidos · Norteamérica",
+    title: "Disney Academic Exchange · CMU",
+    text: "Programa con compensación económica de Disney para carreras de recreación, turismo y hospitalidad, gestionado con Central Michigan University bajo visado J-1.",
+    tags: ["Remunerada", "Visa J-1"],
+  },
+  {
+    flag: "🌎",
+    place: "Múltiples destinos",
+    title: "Prácticas por convenio o como visitante",
+    text: "¿Tienes una empresa o institución en mente? La CDI te ayuda a explorar opciones de práctica profesional internacional según tu carrera y país de interés.",
+    tags: ["A tu medida", "Asesoría CDI"],
+  },
+];
+---
+
+<section id="pasantias" class="pasantias" data-screen-label="07 Pasantías">
+  <div class="wrap">
+    <div class="pas-top">
+      <div class="pas-intro">
+        <div class="eyebrow"><span class="dot"></span>Pasantías internacionales</div>
+        <h2 class="section-title">Práctica profesional, <em style="font-style:italic;color:var(--uvg-green-soft);">en otro país.</em></h2>
+        <p class="lead">
+          Más allá del aula, la UVG abre puertas a pasantías y prácticas académicas en empresas e instituciones extranjeras. Una forma de sumar experiencia profesional real mientras conoces una nueva cultura de trabajo.
+        </p>
+        <ul class="pas-points">
+          {points.map((p) => (
+            <li>
+              <span class="mk">{p.mk}</span>
+              <span><strong>{p.strong}</strong> {p.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="pas-photo">
+        <div class="badge">
+          <div class="label">Duración típica</div>
+          <div class="txt">De 3 a 10 meses según el programa</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pas-grid">
+      {cards.map((c) => (
+        <article class="pas-card">
+          <div class="flag-line"><span class="fl">{c.flag}</span> {c.place}</div>
+          <h3>{c.title}</h3>
+          <p>{c.text}</p>
+          <div class="pas-tags">
+            {c.tags.map((t) => <span class="tag">{t}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

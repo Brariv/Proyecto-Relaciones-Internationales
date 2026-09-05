@@ -1,0 +1,57 @@
+---
+import TripsSection from "../../components/common/TripsSection.astro";
+import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+
+const requirements = [
+  { icon: "🎓", title: "Cualquier carrera", text: "Abiertos a estudiantes de cualquier carrera, salvo que el viaje indique un enfoque específico." },
+  { icon: "⛰", title: "Cualquier campus", text: "Estudiantes de todos los campus de la UVG pueden participar." },
+  { icon: "⌖", title: "Pasaporte vigente", text: "Con vigencia mínima de 6 meses al momento del viaje." },
+  { icon: "#", title: "Cupo limitado", text: "Los lugares se asignan por orden de inscripción y pago." },
+];
+
+const steps = [
+  {
+    title: "Elige tu viaje",
+    items: [
+      "Revisa enfoque, fechas y lo que incluye cada viaje",
+      "Confirma la fecha límite de aplicación",
+      "Resuelve tus dudas con la CDI",
+    ],
+  },
+  {
+    title: "Inscríbete a tiempo",
+    items: [
+      "Completa el formulario antes de la fecha límite",
+      "Alemania: 26 oct · Pittsburgh: 9 nov · Boston: 27 may",
+      "Recibe la confirmación de tu cupo",
+    ],
+  },
+  {
+    title: "Realiza el pago",
+    items: [
+      "Cubre el costo del programa",
+      "Incluye boletos, alojamiento, transporte y seguro",
+      "No incluye alimentación (≈$40/día) ni visa",
+    ],
+  },
+  {
+    title: "Visa y orientación",
+    items: [
+      "Tramita la visa correspondiente",
+      "Asiste a la sesión informativa pre-viaje",
+      "Prepara tu itinerario con el docente guía",
+    ],
+  },
+];
+---
+
+<main id="top">
+  <TripsSection />
+  <ApplyProcessSection
+    scope="Viajes Académicos"
+    title="Asegura tu lugar."
+    kicker="Los viajes académicos tienen cupo limitado y fechas de aplicación específicas. Aplica con tiempo para asegurar tu participación."
+    requirements={requirements}
+    steps={steps}
+  />
+</main>

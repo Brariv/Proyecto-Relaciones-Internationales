@@ -189,8 +189,69 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   font-size: 14px;
   font-weight: 500;
 }
-@media (min-width: 900px) {
+@media (min-width: 1080px) {
   .nav-menu { display: flex; }
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+/* Hamburger (mobile only) */
+.nav-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.site-header.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.site-header.is-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.site-header.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (min-width: 1080px) {
+  .nav-toggle { display: none; }
+}
+
+/* Mobile dropdown panel */
+@media (max-width: 1079.98px) {
+  .site-header.is-open .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 8px var(--gutter) 16px;
+    background: rgb(59, 58, 60);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 24px 40px -24px rgba(0,0,0,0.5);
+  }
+  .site-header.is-open .nav-menu a {
+    padding: 14px 0;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .site-header.is-open .nav-menu a:last-child { border-bottom: 0; }
+  .site-header.is-open .nav-menu a::after { display: none; }
 }
 
 .nav-menu a {
@@ -2264,3 +2325,136 @@ a.modal-card .go {
 }
 a.modal-card .go svg { width: 14px; height: 14px; transition: transform .2s ease; }
 a.modal-card:hover .go svg { transform: translate(3px, -3px); }
+
+/* ============================================================
+   RESPONSIVE — mobile / tablet refinements
+   (the base grids already collapse; this tightens spacing,
+   type and a few layouts that still overflowed on phones)
+   ============================================================ */
+
+/* Never allow horizontal scroll from transformed carousel cards, etc. */
+/* `clip` (not `hidden`) so the sticky header keeps working */
+body { overflow-x: clip; }
+img, svg, video { max-width: 100%; }
+p, h1, h2, h3, h4, h5, li, dd, dt { overflow-wrap: anywhere; }
+
+/* ---- Tablet & below ---- */
+@media (max-width: 900px) {
+  :root { --gutter: 24px; }
+
+  .nav { height: 72px; gap: 12px; }
+  .nav-logo img { max-height: 40px; }
+  .nav-cta { padding: 9px 14px; font-size: 12px; }
+
+  .section, .intro, .pasantias, .viajes, .destinos, .testim,
+  .proceso, .cta, .map-section, .dest-redirect, .espec-hero { padding: 72px 0; }
+  .espec-hero { padding-bottom: 0; }
+  .section-head { margin-bottom: 36px; }
+
+  .hero { padding: 56px 0 56px; }
+  .hero-headline { margin-bottom: 32px; }
+  .hero-foot { margin-top: 48px; padding-top: 28px; }
+
+  .intro-stats { margin-top: 40px; }
+
+  .map-section { padding: 72px 0 56px; }
+  .map-canvas { min-height: 0; padding: 10px; display: flex; flex-direction: column; }
+  .map-legend { position: static; order: 2; margin-top: 12px; flex-wrap: wrap; gap: 12px; }
+  .map-filter { gap: 6px; }
+  .map-filter button { padding: 7px 11px; font-size: 11.5px; }
+  .map-panel { padding: 22px; }
+
+  .cta-card { padding: 44px 28px; gap: 32px; }
+  .cta-card p { font-size: 15.5px; }
+  .cta-side .email { font-size: 22px; }
+
+  .viaje-content { padding: 22px 20px 26px; }
+  .viaje-content h3 { font-size: 26px; }
+  .viaje-media { min-height: 200px; }
+  .viaje-facts { gap: 24px; }
+
+  .pas-photo { min-height: 280px; }
+
+  .foot { padding: 56px 0 24px; }
+  .foot-grid { gap: 32px; padding-bottom: 32px; }
+  .foot .brand img { width: auto !important; height: 34px !important; }
+}
+
+/* ---- Phones ---- */
+@media (max-width: 600px) {
+  :root { --gutter: 18px; }
+  html, body { font-size: 16px; }
+
+  .nav-cta svg { display: none; }
+  .nav-cta { padding: 9px 12px; }
+  .nav-logo img { max-height: 32px; }
+
+  .section-title { font-size: clamp(26px, 8vw, 34px); }
+  .cta-card h2 { font-size: clamp(28px, 8vw, 36px); }
+  .section-kicker { font-size: 15.5px; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.14em; }
+
+  /* Hero carousel: cards fit in the viewport, sides fade out */
+  .hero-carousel { height: 440px; }
+  .hero-card { width: 260px; height: 390px; margin-left: -130px; margin-top: -195px; }
+  .hero-card .card-body { padding: 24px 20px 20px; }
+  .hero-card .card-title { font-size: 24px; }
+  .hero-card .card-cta { padding: 13px 16px; font-size: 12.5px; }
+  .hero-card[data-pos="-1"] { transform: translateX(-150px) rotateY(8deg) scale(0.8); filter: brightness(0.6); }
+  .hero-card[data-pos="1"]  { transform: translateX(150px) rotateY(-8deg) scale(0.8); filter: brightness(0.6); }
+  .carousel-nav { width: 44px; height: 44px; }
+  .carousel-nav.prev { left: 8px; }
+  .carousel-nav.next { right: 8px; }
+  .hero-foot .lede { font-size: 20px; }
+  .hero-cta-row .btn { width: 100%; justify-content: center; }
+
+  .intro-body p { font-size: 24px; }
+  .intro-stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .stat .num { font-size: 42px; }
+
+  .modal-card { min-height: 0; padding: 28px 22px 24px; }
+  .modal-card h3 { font-size: 24px; }
+
+  .region-card { min-height: 0; padding: 20px; gap: 18px; }
+  .region-card .rc-count { font-size: 32px; }
+  .redirect-cta .btn { width: 100%; justify-content: center; }
+
+  .req-card, .step { padding: 22px 20px; }
+  .step h4 { font-size: 21px; }
+
+  .pas-points li { grid-template-columns: 24px 1fr; gap: 10px; font-size: 14.5px; }
+  .pas-photo .badge { left: 12px; bottom: 12px; right: 12px; max-width: none; }
+  .pas-card { padding: 24px 20px; }
+
+  .espec-card .body { padding: 20px 18px 22px; }
+  .espec-facts .ef { grid-template-columns: 80px 1fr; }
+
+  .viaje-chips span, .tag { font-size: 10.5px; }
+  .viaje-facts { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .viaje-cta { width: 100%; justify-content: center; }
+
+  .filter-bar { gap: 6px; }
+  .filter-bar button { padding: 8px 12px; font-size: 12px; }
+  .filter-bar .count { width: 100%; margin-left: 0; margin-top: 6px; }
+
+  .up-row {
+    grid-template-columns: 48px 1fr;
+    gap: 12px 14px;
+    padding: 18px;
+  }
+  .up-row .flag-big { font-size: 26px; }
+  .up-row .status { grid-column: 2; justify-self: start; }
+
+  .testim-cat { margin-top: 56px; }
+  .testim-card blockquote { font-size: 18px; }
+
+  .map-stage { gap: 16px; }
+  .map-panel h3 { font-size: 22px; }
+  .map-panel .row { grid-template-columns: 90px 1fr; }
+
+  .cta-card { padding: 36px 20px; border-radius: 4px; }
+  .cta-card .hero-cta-row .btn { width: 100%; justify-content: center; }
+  .cta-side .row { flex-direction: column; gap: 2px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+  .foot-base { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

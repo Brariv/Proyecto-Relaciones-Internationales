@@ -1,0 +1,32 @@
+---
+import { DESTINATIONS } from "../../data/destinations.js";
+
+const upcoming = DESTINATIONS.filter((d) => d.status === "upcoming");
+---
+
+<section id="proximas" class="upcoming" data-screen-label="10 Próximas oportunidades">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>En gestión</div>
+        <h2 class="section-title">Próximas oportunidades.</h2>
+      </div>
+      <p class="section-kicker">
+        Convenios en negociación o pendientes de activación para los ciclos siguientes. Si te interesa alguno, agenda una cita con la oficina para conocer el estado y los plazos estimados.
+      </p>
+    </div>
+
+    <div class="upcoming-grid" id="upcoming-grid">
+      {upcoming.map((d) => (
+        <a class="up-row" href={d.site} target="_blank" rel="noopener">
+          <span class="flag-big">{d.flag}</span>
+          <div class="info">
+            <h4>{d.uni}</h4>
+            <div class="sub">{d.city}, {d.country} · {d.region}</div>
+          </div>
+          <span class="status"><span class="pulse"></span>Próximo</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+---
+const specializations = [
+  {
+    lvl: "Aeroespacial · Alemania",
+    title: "Ingeniería Aeroespacial",
+    text: "Un semestre en la Julius Maximilians Universität Würzburg (JMU), una de las universidades más antiguas de Alemania (1402) y con 14 premios Nobel. Cursos de nivel maestría en Aerospace Informatics, impartidos en inglés.",
+    facts: [
+      { label: "Universidad", value: "JMU Würzburg", strong: true },
+      { label: "Semestre", value: "Marzo a agosto" },
+      { label: "Cursos", value: "5 cursos (≥3 de aeroespacial), nivel maestría" },
+      { label: "Costo", value: "168.50 € en JMU + 50% por curso convalidado en UVG · vida ≈ 900 €/mes" },
+    ],
+    tags: ["Inglés B2", "Nivel maestría", "Convenio"],
+  },
+  {
+    lvl: "Aeronáutica · España",
+    title: "Ingeniería Aeronáutica",
+    text: "Un semestre en la Universidad Europea de Madrid (UEM), de enfoque científico-tecnológico, con makerspace y laboratorios propios y un máximo de 25 estudiantes por clase. Cursos de aeronáutica impartidos en inglés.",
+    facts: [
+      { label: "Universidad", value: "U. Europea de Madrid", strong: true },
+      { label: "Semestre", value: "3ª semana de enero a mediados de junio" },
+      { label: "Cursos", value: "5 cursos · 30 ECTS (≥3 de aeronáutica)" },
+      { label: "Costo", value: "133 €/ECTS (≈3,990 € por 30 ECTS) + 50% por curso convalidado en UVG · vida ≈ 900 €/mes" },
+    ],
+    tags: ["Inglés B2", "30 ECTS", "Convenio"],
+  },
+];
+---
+
+<section id="especializacion" class="pasantias espec-hero" data-screen-label="Especialización">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Especialización</div>
+        <h2 class="section-title">Especialízate en <em style="font-style:italic;color:var(--uvg-green-soft);">ingeniería de vuelo.</em></h2>
+      </div>
+      <p class="section-kicker">La Facultad de Ingeniería ofrece dos especialidades que implican un semestre adicional de estudios en una universidad del exterior. El diploma de la especialidad lo otorga la UVG al convalidar los cursos aprobados.</p>
+    </div>
+
+    <div class="espec-grid espec-grid--two">
+      {specializations.map((s) => (
+        <article class="espec-card">
+          <div class="photo">
+            <span class="lvl">{s.lvl}</span>
+          </div>
+          <div class="body">
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <dl class="espec-facts">
+              {s.facts.map((f) => (
+                <div class="ef">
+                  <dt>{f.label}</dt>
+                  <dd>{f.strong ? <strong>{f.value}</strong> : f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div class="espec-tags">
+              {s.tags.map((t) => <span class="tag">{t}</span>)}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

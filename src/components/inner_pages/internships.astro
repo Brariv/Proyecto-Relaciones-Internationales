@@ -1,0 +1,57 @@
+---
+import InternshipsSection from "../../components/common/InternshipsSection.astro";
+import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+
+const requirements = [
+  { icon: "✓", title: "Inscripción vigente", text: "Ser estudiante activo de la UVG con buen récord académico." },
+  { icon: "CV", title: "CV actualizado", text: "Currículum y carta de motivación, idealmente en el idioma del destino." },
+  { icon: "A1", title: "Idioma", text: "Nivel de idioma acorde a la empresa o institución anfitriona." },
+  { icon: "⌖", title: "Pasaporte vigente", text: "Y disponibilidad para tramitar la visa de prácticas correspondiente." },
+];
+
+const steps = [
+  {
+    title: "Contactar a la CDI",
+    items: [
+      "Escribir a uvgglobal@uvg.edu.gt",
+      "Agendar una asesoría de orientación",
+      "Definir intereses, carrera y país de destino",
+    ],
+  },
+  {
+    title: "Definir la pasantía",
+    items: [
+      "Elegir empresa o institución anfitriona",
+      "Confirmar modalidad: convenio o visitante",
+      "Revisar duración, requisitos y apoyo disponible",
+    ],
+  },
+  {
+    title: "Aplicación y documentos",
+    items: [
+      "Preparar CV y carta de motivación",
+      "Completar formularios de la institución",
+      "Gestionar cartas de respaldo de la UVG",
+    ],
+  },
+  {
+    title: "Visa, permisos y orientación",
+    items: [
+      "Tramitar visa de prácticas y permisos",
+      "Firmar eximente y seguro",
+      "Asistir a la orientación previa al viaje",
+    ],
+  },
+];
+---
+
+<main id="top">
+  <InternshipsSection />
+  <ApplyProcessSection
+    scope="Pasantías"
+    title="De la idea a la práctica."
+    kicker="La CDI te acompaña en cada paso para conseguir una pasantía internacional, ya sea por convenio o como estudiante visitante."
+    requirements={requirements}
+    steps={steps}
+  />
+</main>
