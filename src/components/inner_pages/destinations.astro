@@ -5,6 +5,7 @@
 // (map.js alimenta tanto el mapa como esta página con el mismo arreglo).
 import { loadComponentContent } from "../../lib/content";
 import { normalizeDestination } from "../../lib/destinations";
+import CoverImage from "../../components/common/CoverImage.astro";
 
 const regions = ["América Latina", "Norteamérica", "Europa", "Asia"];
 
@@ -35,8 +36,9 @@ const upcoming = destinations.filter((d) => d.status === "upcoming");
 
       <div class="dest-grid" id="dest-grid">
         {available.map((d) => (
-          <article class="dest-card" data-region={d.region}>
+          <article class="dest-card" data-region={d.region} data-country={d.country.toLowerCase()}>
             <div class="photo">
+              <CoverImage alt={`${d.uni} · ${d.city}`} />
               <span class="flag-row"><span class="flag">{d.flag}</span> {d.country}</span>
             </div>
             <div class="body">
@@ -46,8 +48,11 @@ const upcoming = destinations.filter((d) => d.status === "upcoming");
                 <span class="pill green">{d.region}</span>
                 <span class="pill">{d.idioma.split("/")[0].trim()}</span>
               </div>
-              <div class="foot">
-                <span>{d.cupos} · cupos</span>
+              <div class="dest-foot">
+                <span class="cupos">
+                  <small>Cupos</small>
+                  <strong>{d.cupos}</strong>
+                </span>
                 <a class="arrow" href={`/?dest=${d.id}#mapa`} aria-label={`Ver detalles de ${d.uni}`}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
                 </a>

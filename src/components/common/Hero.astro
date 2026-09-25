@@ -2,6 +2,7 @@
 // Stacked-card hero carousel. Content is loaded from data/start/carousel.md
 // (see docs/Format_Page.md > Inicio > Carusel).
 import { loadComponentContent } from "../../lib/content";
+import CoverImage from "./CoverImage.astro";
 
 interface CarouselItem {
   titulo: string;
@@ -49,7 +50,9 @@ function initialPos(i: number) {
       {cards.map((c, i) => (
         <article class="hero-card" data-index={i} data-pos={initialPos(i)} aria-roledescription="slide">
           <div class="card-bg">
-            <div class="card-media"></div>
+            <div class="card-media">
+              <CoverImage alt={c.title} loading="eager" />
+            </div>
           </div>
           <div class="card-body">
             <div class="card-kicker">{c.kicker}</div>

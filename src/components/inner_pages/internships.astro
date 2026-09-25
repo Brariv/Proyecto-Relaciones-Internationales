@@ -1,5 +1,6 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+import CoverImage from "../../components/common/CoverImage.astro";
 import { loadComponentContent } from "../../lib/content";
 
 interface InternshipItem {
@@ -29,19 +30,35 @@ const requirements = [
 const steps = [
   {
     title: "Contactar a la CDI",
-    items: ["Escribir a uvgglobal@uvg.edu.gt", "Agendar una asesoría de orientación", "Definir intereses, carrera y país de destino"],
+    items: [
+      "Escribir a uvgglobal@uvg.edu.gt",
+      "Agendar una asesoría de orientación",
+      "Definir intereses, carrera y país de destino",
+    ],
   },
   {
     title: "Definir la pasantía",
-    items: ["Elegir empresa o institución anfitriona", "Confirmar modalidad: convenio o visitante", "Revisar duración, requisitos y apoyo disponible"],
+    items: [
+      "Elegir empresa o institución anfitriona",
+      "Confirmar modalidad: convenio o visitante",
+      "Revisar duración, requisitos y apoyo disponible",
+    ],
   },
   {
     title: "Aplicación y documentos",
-    items: ["Preparar CV y carta de motivación", "Completar formularios de la institución", "Gestionar cartas de respaldo de la UVG"],
+    items: [
+      "Preparar CV y carta de motivación",
+      "Completar formularios de la institución",
+      "Gestionar cartas de respaldo de la UVG",
+    ],
   },
   {
     title: "Visa, permisos y orientación",
-    items: ["Tramitar visa de prácticas y permisos", "Firmar eximente y seguro", "Asistir a la orientación previa al viaje"],
+    items: [
+      "Tramitar visa de prácticas y permisos",
+      "Firmar eximente y seguro",
+      "Asistir a la orientación previa al viaje",
+    ],
   },
 ];
 ---
@@ -63,6 +80,7 @@ const steps = [
           </ul>
         </div>
         <div class="pas-photo">
+          <CoverImage alt="Estudiante UVG en su pasantía internacional" />
           <div class="badge">
             <div class="label">Duración típica</div>
             <div class="txt">De 3 a 10 meses según el programa</div>

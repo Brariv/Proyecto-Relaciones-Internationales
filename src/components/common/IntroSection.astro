@@ -1,4 +1,6 @@
 ---
+import CoverImage from "./CoverImage.astro";
+
 const stats = [
   { num: "25", plus: true, label: "Universidades aliadas" },
   { num: "14", plus: false, label: "Países de destino" },
@@ -10,8 +12,11 @@ const stats = [
 <section id="programa" class="intro" data-screen-label="02 Programa">
   <div class="wrap">
     <div class="intro-grid">
-      <div>
-        <div class="eyebrow"><span class="dot"></span>El programa</div>
+      <div class="intro-side">
+        <div class="intro-photo">
+          <CoverImage alt="Estudiantes UVG en intercambio" />
+          <div class="eyebrow intro-photo-label"><span class="dot"></span>El programa</div>
+        </div>
       </div>
       <div class="intro-body">
         <p>

@@ -1,5 +1,6 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+import CoverImage from "../../components/common/CoverImage.astro";
 import { loadComponentContent } from "../../lib/content";
 
 interface ProgramItem {
@@ -73,6 +74,7 @@ const steps = [
         {programs.map((p) => (
           <article class="espec-card">
             <div class="photo">
+              <CoverImage alt={p.titulo} />
               <span class="lvl">{p.badge}</span>
             </div>
             <div class="body">
@@ -96,7 +98,7 @@ const steps = [
 
   <ApplyProcessSection
     scope="Especialización"
-    title={"Convocatoria anual en julio."}
+    title="Convocatoria anual en <em>julio.</em>"
     kicker="La decanatura de la Facultad de Ingeniería abre la convocatoria cada año en julio y envía el formulario a través de los departamentos. Un comité selecciona a los participantes y los notifica en agosto."
     requirements={requirements}
     steps={steps}

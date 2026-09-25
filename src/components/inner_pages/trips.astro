@@ -1,5 +1,6 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
+import CoverImage from "../../components/common/CoverImage.astro";
 import { loadComponentContent } from "../../lib/content";
 
 interface TripItem {
@@ -31,19 +32,35 @@ const requirements = [
 const steps = [
   {
     title: "Elige tu viaje",
-    items: ["Revisa enfoque, fechas y lo que incluye cada viaje", "Confirma la fecha límite de aplicación", "Resuelve tus dudas con la CDI"],
+    items: [
+      "Revisa enfoque, fechas y lo que incluye cada viaje",
+      "Confirma la fecha límite de aplicación",
+      "Resuelve tus dudas con la CDI",
+    ],
   },
   {
     title: "Inscríbete a tiempo",
-    items: ["Completa el formulario antes de la fecha límite", "Alemania: 26 oct · Pittsburgh: 9 nov · Boston: 27 may", "Recibe la confirmación de tu cupo"],
+    items: [
+      "Completa el formulario antes de la fecha límite",
+      "Alemania: 26 oct · Pittsburgh: 9 nov · Boston: 27 may",
+      "Recibe la confirmación de tu cupo",
+    ],
   },
   {
     title: "Realiza el pago",
-    items: ["Cubre el costo del programa", "Incluye boletos, alojamiento, transporte y seguro", "No incluye alimentación (≈$40/día) ni visa"],
+    items: [
+      "Cubre el costo del programa",
+      "Incluye boletos, alojamiento, transporte y seguro",
+      "No incluye alimentación (≈$40/día) ni visa",
+    ],
   },
   {
     title: "Visa y orientación",
-    items: ["Tramita la visa correspondiente", "Asiste a la sesión informativa pre-viaje", "Prepara tu itinerario con el docente guía"],
+    items: [
+      "Tramita la visa correspondiente",
+      "Asiste a la sesión informativa pre-viaje",
+      "Prepara tu itinerario con el docente guía",
+    ],
   },
 ];
 ---
@@ -64,6 +81,7 @@ const steps = [
         {trips.map((t) => (
           <article class="viaje-row">
             <div class="viaje-media">
+              <CoverImage alt={t.titulo} />
               <span class="viaje-flag">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
                 {t.nombre}

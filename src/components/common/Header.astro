@@ -17,13 +17,13 @@ const links = [
 ];
 ---
 
-<header class="site-header" style="background-color: rgb(59, 58, 60)">
+<header class="site-header" id="site-header" style="background-color: rgb(59, 58, 60)">
   <div class="wrap nav">
     <a class="nav-logo" href="/" aria-label="UVG Global · Inicio">
-      <img src="/assets/global-logo-blanco.png" alt="UVG Global" style="height: 50%; width: 50%;" />
+      <img src="/assets/global-logo-blanco.png" alt="UVG Global" width="4755" height="621" />
     </a>
 
-    <nav class="nav-menu" aria-label="Principal">
+    <nav class="nav-menu" id="nav-menu" aria-label="Principal">
       {links.map((link) => (
         <a
           href={link.href}
@@ -35,15 +35,49 @@ const links = [
       ))}
     </nav>
 
-    <a
-      class="nav-cta"
-      href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled"
-      target="_blank"
-      rel="noopener"
-      style="background-color: rgb(105, 188, 74)"
-    >
-      Aplicar
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
-    </a>
+    <div class="nav-actions">
+      <a
+        class="nav-cta"
+        href="https://outlook.office.com/book/StudyAbroadAdvisingSession@uvg.edu.gt/?ismsaljsauthenabled"
+        target="_blank"
+        rel="noopener"
+        style="background-color: rgb(105, 188, 74)"
+      >
+        Aplicar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+      </a>
+
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-controls="nav-menu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+        data-nav-toggle
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const menu = document.getElementById("nav-menu");
+
+  if (header && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    };
+
+    toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-open")));
+
+    // Close after choosing a link, on Escape, or when resizing back to desktop
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+    window.matchMedia("(min-width: 1080px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+  }
+</script>

@@ -1,4 +1,5 @@
 ---
+import CoverImage from "../../components/common/CoverImage.astro";
 import { loadComponentContent } from "../../lib/content";
 
 interface TestimonyItem {
@@ -39,7 +40,9 @@ const groups = [
           <div class="testim-grid">
             {g.items.map((t) => (
               <article class="testim-card">
-                <div class="photo"></div>
+                <div class="photo">
+                  <CoverImage alt={t.nombre} />
+                </div>
                 <div class="mod">{t.modalidad}</div>
                 <div class="name">{t.nombre}</div>
                 <div class="where">{t.universidad}</div>

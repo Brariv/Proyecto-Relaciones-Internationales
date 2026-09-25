@@ -1,0 +1,17 @@
+---
+// Fills its (position: relative) parent box with an image cropped via
+// object-fit: cover, so the box keeps its own aspect ratio at every
+// breakpoint. Defaults to the shared placeholder until real photos exist.
+const PLACEHOLDER_IMG = "https://placehold.net/default.png";
+
+export interface Props {
+  src?: string;
+  alt?: string;
+  /** "eager" for above-the-fold images (e.g. the hero carousel) */
+  loading?: "lazy" | "eager";
+}
+
+const { src = PLACEHOLDER_IMG, alt = "", loading = "lazy" } = Astro.props;
+---
+
+<img class="cover-img" src={src} alt={alt} loading={loading} decoding="async" />
