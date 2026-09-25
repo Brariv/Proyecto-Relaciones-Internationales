@@ -1,4 +1,6 @@
 ---
+import CoverImage from "./CoverImage.astro";
+
 const specializations = [
   {
     lvl: "Aeroespacial · Alemania",
@@ -41,6 +43,7 @@ const specializations = [
       {specializations.map((s) => (
         <article class="espec-card">
           <div class="photo">
+            <CoverImage alt={s.title} />
             <span class="lvl">{s.lvl}</span>
           </div>
           <div class="body">

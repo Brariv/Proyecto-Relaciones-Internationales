@@ -1,5 +1,6 @@
 ---
 import { DESTINATIONS } from "../../data/destinations.js";
+import CoverImage from "./CoverImage.astro";
 
 const available = DESTINATIONS.filter((d) => d.status === "available");
 
@@ -35,6 +36,7 @@ const filters = [
       {available.map((d) => (
         <article class="dest-card" data-region={d.region} data-country={d.country.toLowerCase()}>
           <div class="photo">
+            <CoverImage alt={`${d.uni} · ${d.city}`} />
             <span class="flag-row"><span class="flag">{d.flag}</span> {d.country}</span>
           </div>
           <div class="body">
@@ -44,8 +46,11 @@ const filters = [
               <span class="pill green">{d.region}</span>
               <span class="pill">{d.idioma.split("/")[0].trim()}</span>
             </div>
-            <div class="foot">
-              <span>{d.cupos} · cupos</span>
+            <div class="dest-foot">
+              <span class="cupos">
+                <small>Cupos</small>
+                <strong>{d.cupos}</strong>
+              </span>
               <a class="arrow" href={`/?dest=${d.id}#mapa`} aria-label={`Ver detalles de ${d.uni}`}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
               </a>

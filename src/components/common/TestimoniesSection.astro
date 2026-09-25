@@ -1,4 +1,6 @@
 ---
+import CoverImage from "./CoverImage.astro";
+
 const categories = [
   {
     name: "Intercambio",
@@ -106,7 +108,9 @@ const categories = [
         <div class="testim-grid">
           {cat.testimonials.map((t) => (
             <article class="testim-card">
-              <div class="photo"></div>
+              <div class="photo">
+                <CoverImage alt={t.name} />
+              </div>
               <div class="mod">{t.mod}</div>
               <div class="name">{t.name}</div>
               <div class="where">{t.where}</div>

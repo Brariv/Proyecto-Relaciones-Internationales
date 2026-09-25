@@ -1,4 +1,6 @@
 ---
+import CoverImage from "./CoverImage.astro";
+
 // Stacked-card hero carousel. Content mirrors the authored cards in the
 // Claude Design handoff (index.html > #carousel-cards template).
 const cards = [
@@ -68,7 +70,9 @@ function initialPos(i: number) {
       {cards.map((c, i) => (
         <article class="hero-card" data-index={i} data-pos={initialPos(i)} aria-roledescription="slide">
           <div class="card-bg">
-            <div class="card-media"></div>
+            <div class="card-media">
+              <CoverImage alt={c.title} loading="eager" />
+            </div>
           </div>
           <div class="card-body">
             <div class="card-kicker">{c.kicker}</div>
