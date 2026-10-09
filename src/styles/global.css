@@ -143,6 +143,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   }
 }
 
+/* Anchor links (#mapa, #aplicar…) land below the sticky header, not under it */
+section[id] { scroll-margin-top: 92px; }
+@media (max-width: 900px) {
+  section[id] { scroll-margin-top: 72px; }
+}
+
 /* ----- Header / Nav ----- */
 .site-header {
   position: sticky;
@@ -855,6 +861,15 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   .map-stage {
     grid-template-columns: 1fr 340px;
   }
+  /* The map sets the row height. `contain: size` makes the panel contribute
+     no height of its own, so a long destination name/detail can no longer
+     stretch the whole stage — it scrolls inside the panel instead. */
+  .map-panel {
+    contain: size;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.25) transparent;
+  }
 }
 
 .map-canvas {
@@ -872,9 +887,10 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   stroke-width: 0.4;
   transition: fill .2s ease;
 }
+/* Countries with UVG presence — brand leaf green (was gold in the handoff) */
 .map-canvas .country-shape.has-uvg {
-  fill: rgba(201,154,62,0.16);
-  stroke: rgba(201,154,62,0.5);
+  fill: rgba(139,197,63,0.18);
+  stroke: rgba(139,197,63,0.55);
 }
 .map-canvas .marker {
   cursor: pointer;
@@ -1001,7 +1017,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   margin: 0;
   color: rgba(255,255,255,0.92);
 }
+.map-panel .rows { margin: 0; } /* <dl> default margins added extra gaps */
 .map-panel .panel-cta {
+  /* always pinned to the bottom of the panel */
   margin-top: auto;
   display: inline-flex;
   align-items: center;
@@ -1011,7 +1029,25 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
   font-size: 13px;
   letter-spacing: 0.04em;
   border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 16px;
+  padding-top: 14px;
+}
+
+/* Desktop: panel height is fixed to the map's, so tighten spacing enough
+   that every destination fits without scrolling (scroll stays only as a
+   fallback for unusually long text). */
+@media (min-width: 1080px) {
+  .map-panel { padding: 24px 24px 22px; gap: 12px; }
+  .map-panel h3 { font-size: 24px; line-height: 1.08; }
+  .map-panel .city { font-size: 13.5px; margin-top: -4px; }
+  .map-panel .row {
+    grid-template-columns: 84px 1fr;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .map-panel .row dt { font-size: 10.5px; padding-top: 1px; }
+  .map-panel .panel-cta { padding-top: 12px; }
 }
 
 .map-filter {

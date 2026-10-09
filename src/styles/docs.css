@@ -1,0 +1,16 @@
+/* Starlight theme overrides — brand greens for the /docs site.
+   Only loaded by Starlight; the public site uses global.css. */
+
+/* Dark mode (Starlight default) */
+:root {
+  --sl-color-accent-low: #0b2b1c;
+  --sl-color-accent: #69bc4a;
+  --sl-color-accent-high: #c9e8a6;
+}
+
+/* Light mode */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e6f2eb;
+  --sl-color-accent: #00693e;
+  --sl-color-accent-high: #00562f;
+}

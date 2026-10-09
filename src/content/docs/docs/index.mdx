@@ -1,0 +1,32 @@
+---
+title: Documentación UVG Global
+description: Guía técnica del sitio de Relaciones Internacionales de la UVG.
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Esta es la documentación técnica del sitio **UVG Global**, la página de
+Relaciones Internacionales de la Universidad del Valle de Guatemala. Está
+pensada para quien mantenga el sitio: cómo correrlo, cómo está organizado y
+cómo editar su contenido.
+
+<CardGrid>
+  <Card title="Stack" icon="rocket">
+    [Astro](https://astro.build) 6 genera un sitio **estático**. Esta
+    documentación usa [Starlight](https://starlight.astro.build) dentro del
+    mismo proyecto.
+  </Card>
+  <Card title="Contenido editable" icon="document">
+    Los textos de las páginas viven en archivos Markdown dentro de `/data`, no
+    en el código.
+  </Card>
+</CardGrid>
+
+## Por dónde empezar
+
+<CardGrid>
+  <LinkCard title="Instalación y comandos" href="/docs/instalacion/" description="Requisitos, instalación y scripts de npm." />
+  <LinkCard title="Estructura del proyecto" href="/docs/guias/estructura/" description="Qué hay en cada carpeta." />
+  <LinkCard title="Editar contenido" href="/docs/guias/contenido/" description="Cómo cambiar textos, destinos y testimonios desde /data." />
+  <LinkCard title="Escribir documentación" href="/docs/guias/documentacion/" description="Cómo agregar páginas a esta documentación." />
+</CardGrid>

@@ -23,13 +23,13 @@ items:
   - titulo: "Aplicaciones abiertas"
     descripcion: "Convocatoria abierta"
     footer: "Cómo postularse"
-    redireccion: "/apply"
+    redireccion: "/exchanges#aplicar"
     meta: "Ciclo 2026–2027"
 
   - titulo: "Encuentra tu destino en el mapa global UVG"
     descripcion: "Mapa mundial"
     footer: "Explorar el mapa"
-    redireccion: "/#map"
+    redireccion: "/#mapa"
     meta: "25+ universidades aliadas"
 
 ---
