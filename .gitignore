@@ -30,3 +30,6 @@ pnpm-debug.log*
 .direnv/
 .envrc
 
+
+# backups made by scripts/subir-a-nextcloud.mjs
+.nextcloud-backup/

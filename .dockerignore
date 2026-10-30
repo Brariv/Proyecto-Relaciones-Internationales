@@ -1,0 +1,20 @@
+# Never bake secrets or local builds into the images
+.env
+.env.*
+!.env.example
+node_modules
+dist
+.astro
+.git
+
+# Not needed inside the containers
+*.zip
+# root docs/ only (prototypes); src/content/docs is the Starlight site and IS needed
+/docs/
+/relaciones-internacionales-uvg/
+/data/
+.vscode/
+.idea/
+.DS_Store
+flake.nix
+flake.lock

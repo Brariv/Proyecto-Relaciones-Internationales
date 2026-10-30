@@ -1,7 +1,7 @@
 ---
-// Map markers are loaded from data/start/map.md (see docs/Format_Page.md > Inicio > Mapa).
+// Map markers: Paginas/Inicio/map.md (see Informacion.md > Inicio > Mapa).
 import { loadComponentContent } from "../../lib/content";
-import { normalizeDestination } from "../../lib/destinations";
+import { normalizeDestination, type RawDestination } from "../../lib/destinations";
 
 const filters = [
   { value: "all", label: "Todos" },
@@ -13,7 +13,7 @@ const filters = [
   { value: "Asia", label: "Asia" },
 ];
 
-const { items } = await loadComponentContent("start", "map");
+const { items } = await loadComponentContent<RawDestination>("Inicio", "map");
 const destinations = items.map(normalizeDestination);
 ---
 

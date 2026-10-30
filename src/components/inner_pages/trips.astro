@@ -1,8 +1,9 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
 import CoverImage from "../../components/common/CoverImage.astro";
-import { loadComponentContent } from "../../lib/content";
+import { loadComponentContent, resolveImage } from "../../lib/content";
 
+// Paginas/Viajes/viajes.md · photos in Imagenes/Viajes_Academicos/
 interface TripItem {
   nombre: string;
   pais: string;
@@ -16,11 +17,18 @@ interface TripItem {
   ocupacion: string;
   incluye: string;
   imagen: string;
-  contactoEmail: string;
-  asuntoCorreo: string;
+  /** e-mail behind the "Más información" button */
+  contacto: string;
 }
 
-const { items: trips } = await loadComponentContent<TripItem>("trips", "trips");
+const { items } = await loadComponentContent<TripItem>("Viajes", "viajes");
+const trips = await Promise.all(
+  items.map(async (t) => ({
+    ...t,
+    image: await resolveImage(t.imagen),
+    mailto: `mailto:${t.contacto}?subject=${encodeURIComponent(`Viaje Académico ${t.titulo}`)}`,
+  }))
+);
 
 const requirements = [
   { icon: "🎓", title: "Cualquier carrera", text: "Abiertos a estudiantes de cualquier carrera, salvo que el viaje indique un enfoque específico." },
@@ -81,7 +89,7 @@ const steps = [
         {trips.map((t) => (
           <article class="viaje-row">
             <div class="viaje-media">
-              <CoverImage alt={t.titulo} />
+              <CoverImage src={t.image} alt={t.titulo} />
               <span class="viaje-flag">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
                 {t.nombre}
@@ -104,7 +112,7 @@ const steps = [
                 <div><dt>Duración</dt><dd>{t.ocupacion}</dd></div>
               </dl>
               <div class="viaje-includes"><strong>Incluye:</strong> {t.incluye}</div>
-              <a class="viaje-cta" href={`mailto:${t.contactoEmail}?subject=${encodeURIComponent(t.asuntoCorreo)}`}>
+              <a class="viaje-cta" href={t.mailto}>
                 Más información
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
               </a>

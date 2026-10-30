@@ -1,0 +1,82 @@
+# UVG Global — website + Nextcloud (content storage, web UI and WebDAV API).
+#
+#   cp .env.example .env      # then set the passwords
+#   docker compose up -d --build
+#
+#   Website   -> http://localhost:4321   (reads its content from Nextcloud)
+#   Nextcloud -> http://localhost:8000   (log in as CONTENT_USER to edit content)
+#
+# The first start installs Nextcloud and uploads nextcloud/Sitio Web UVG GLOBAL/
+# into the content account (docker/nextcloud/hooks/). It takes 1–3 minutes.
+
+name: uvg-global
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Define DB_ROOT_PASSWORD en .env}
+      MARIADB_DATABASE: nextcloud
+      MARIADB_USER: nextcloud
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD en .env}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  nextcloud:
+    build:
+      context: .
+      dockerfile: docker/nextcloud/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${NEXTCLOUD_PORT:-8000}:80"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER:-admin}
+      NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD:?Define NEXTCLOUD_ADMIN_PASSWORD en .env}
+      # "nextcloud" = how the site container reaches it; add your real domain here when deploying
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost nextcloud ${NEXTCLOUD_DOMAIN:-}
+      # used by the first-install hook
+      CONTENT_USER: ${CONTENT_USER:-contenido}
+      CONTENT_PASSWORD: ${CONTENT_PASSWORD:?Define CONTENT_PASSWORD en .env}
+      CONTENT_DIR: ${CONTENT_DIR:-Sitio Web UVG GLOBAL}
+    volumes:
+      - nextcloud:/var/www/html
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -H 'Host: localhost' http://localhost/status.php | grep -q '\"installed\":true'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+
+  site:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      nextcloud:
+        condition: service_healthy
+    ports:
+      - "${SITE_PORT:-4321}:4321"
+    environment:
+      NEXTCLOUD_URL: http://nextcloud
+      NEXTCLOUD_USER: ${CONTENT_USER:-contenido}
+      NEXTCLOUD_PASSWORD: ${CONTENT_PASSWORD}
+      NEXTCLOUD_CONTENT_DIR: ${CONTENT_DIR:-Sitio Web UVG GLOBAL}
+      # seconds a page/photo list is cached before re-reading Nextcloud
+      CONTENT_CACHE_TTL: ${CONTENT_CACHE_TTL:-60}
+
+volumes:
+  db:
+  nextcloud:

@@ -1,5 +1,10 @@
 ---
 import CoverImage from "./CoverImage.astro";
+import { resolveImage } from "../../lib/content";
+
+// Photo behind "El programa": a fixed file name, searched anywhere under
+// Imagenes/ (currently Imagenes/Carrusel/). Placeholder if it doesn't exist.
+const photo = await resolveImage("Inicio_El-Programa.jpg");
 
 const stats = [
   { num: "25", plus: true, label: "Universidades aliadas" },
@@ -14,7 +19,7 @@ const stats = [
     <div class="intro-grid">
       <div class="intro-side">
         <div class="intro-photo">
-          <CoverImage alt="Estudiantes UVG en intercambio" />
+          <CoverImage src={photo} alt="Estudiantes UVG en intercambio" />
           <div class="eyebrow intro-photo-label"><span class="dot"></span>El programa</div>
         </div>
       </div>

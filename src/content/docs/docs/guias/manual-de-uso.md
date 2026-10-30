@@ -11,33 +11,39 @@ hecho el sitio por dentro, ve a [Estructura del proyecto](/docs/guias/estructura
 
 ## Resumen rápido
 
-1. Busca el archivo de la página que quieres cambiar en la carpeta `data/`
+1. Entra a **Nextcloud** con la cuenta de contenido y abre la carpeta
+   **Sitio Web UVG GLOBAL**.
+2. Busca el archivo de la página que quieres cambiar dentro de `Paginas/`
    (ver [la tabla de abajo](#qué-archivo-cambia-qué-página)).
-2. Edita el texto entre comillas, respetando la indentación.
-3. Revisa el cambio (en tu computadora o en la vista previa de GitHub).
-4. Sube el cambio a GitHub (o al bucket, si el sitio usa contenido remoto).
-5. Vuelve a generar el sitio (`npm run build`) para que el cambio se publique.
+3. Edita el texto entre comillas, respetando la indentación, y guarda.
+4. Para fotos, súbelas a la carpeta que corresponda dentro de `Imagenes/`
+   (ver [Fotos de las tarjetas](#fotos-de-las-tarjetas)).
+5. Espera hasta **1 minuto** y recarga el sitio: el cambio aparece solo, sin
+   volver a generar nada.
 
 ## Qué archivo cambia qué página
 
-Todo el contenido editable está en la carpeta `data/`, con **una carpeta por
-página** y **un archivo por sección**:
+Todo el contenido editable está en la carpeta **Sitio Web UVG GLOBAL**, con
+**una carpeta por página** dentro de `Paginas/` y **un archivo por sección**:
 
-| Quiero cambiar…                                   | Archivo                            |
-| ------------------------------------------------- | ---------------------------------- |
-| Las tarjetas del carrusel de la portada           | `data/start/carousel.md`           |
-| Universidades / destinos (mapa, página Destinos)  | `data/start/map.md`                |
-| Programas de Pasantías                            | `data/internships/programs.md`     |
-| Programas de Especialización                      | `data/specialization/programs.md`  |
-| Viajes Académicos                                 | `data/trips/trips.md`              |
-| Testimonios de intercambio                        | `data/testimonies/exchanges.md`    |
-| Testimonios de pasantías                          | `data/testimonies/internships.md`  |
-| Testimonios de viajes académicos                  | `data/testimonies/trips.md`        |
+| Quiero cambiar…                                      | Archivo (dentro de `Paginas/`)            |
+| ---------------------------------------------------- | ----------------------------------------- |
+| Las tarjetas del carrusel de la portada              | `Inicio/carousel.md`                      |
+| Los puntos del mapa mundial (y conteos por región)   | `Inicio/map.md`                           |
+| Tarjetas de convenios activos (página Destinos)      | `Destinos/convenios.md`                   |
+| Próximas oportunidades (página Destinos)             | `Destinos/oportunidades.md`               |
+| Programas de Pasantías                               | `Pasantias/pasantias.md`                  |
+| Programas de Especialización                         | `Especializaciones/especializaciones.md`  |
+| Viajes Académicos                                    | `Viajes/viajes.md`                        |
+| Testimonios de intercambio                           | `Testimonios/intercambios.md`             |
+| Testimonios de pasantías                             | `Testimonios/pasantias.md`                |
+| Testimonios de viajes académicos                     | `Testimonios/viajes.md`                   |
 
 :::tip
-`data/start/map.md` es la única fuente de destinos. Una universidad agregada
-ahí aparece sola en el mapa de Inicio, en la página Destinos y en los conteos
-por región.
+Cada destino tiene un `id` (ej. `"ue-madrid"`). Es el mismo en
+`Inicio/map.md` y en `Destinos/convenios.md` u `oportunidades.md`: así la
+tarjeta de Destinos toma la ciudad y el idioma del mapa, y su flecha abre ese
+destino en el mapa.
 :::
 
 Los textos que **no** están en esta tabla (menú, pie de página, títulos fijos
@@ -49,7 +55,7 @@ desarrollo.
 
 Cada archivo tiene dos partes separadas por líneas `---`:
 
-```md title="data/start/carousel.md"
+```md title="Paginas/Inicio/carousel.md"
 ---
 # Las líneas que empiezan con # son comentarios: explican cada campo.
 items:
@@ -112,9 +118,16 @@ Los campos `labels` son listas entre corchetes, separadas por comas:
     labels: ["Inglés B2", "Nivel maestría", "Convenio"]
 ```
 
-### Agregar un destino al mapa
+### Agregar un destino
 
-En `data/start/map.md`, además de los textos, cada destino necesita:
+Un destino nuevo va en **dos archivos**, con el mismo `id`:
+
+1. `Inicio/map.md` — el punto en el mapa (con todos sus datos).
+2. `Destinos/convenios.md` si tiene convenio activo, o
+   `Destinos/oportunidades.md` si es una próxima oportunidad — la tarjeta de
+   la página Destinos.
+
+En `Inicio/map.md`, además de los textos, cada destino necesita:
 
 | Campo     | Qué poner                                                                                       |
 | --------- | ----------------------------------------------------------------------------------------------- |
@@ -127,7 +140,7 @@ En `data/start/map.md`, además de los textos, cada destino necesita:
 ## Reglas para no romper el archivo
 
 El contenido está en formato **YAML**, que es estricto. Si algo está mal
-escrito, el sitio no se genera y muestra un error.
+escrito, el sitio no puede leer ese archivo.
 
 :::caution[Las 5 reglas]
 1. **Indentación con espacios, nunca tabs.** Copia la misma sangría de los
@@ -141,35 +154,65 @@ escrito, el sitio no se genera y muestra un error.
 5. **No borres los `---`** del inicio y del final del bloque.
 :::
 
-Si el archivo tiene un error, `npm run build` (o `npm run dev`) mostrará un
-mensaje como `YAMLException: bad indentation…` junto con el número de línea.
-Revisa esa línea y la anterior.
+**Si guardas un archivo con error en Nextcloud, el sitio no se cae:** sigue
+mostrando la última versión buena de esa sección hasta que corrijas el
+archivo. Por eso, si tu cambio “no aparece”, lo más probable es un error de
+formato. El detalle queda en el registro del sitio
+(`npm run docker:logs`), con un mensaje como
+`"Paginas/Viajes/viajes.md" tiene un error de formato YAML: bad indentation…`.
+
+Si trabajas en tu computadora (`npm run dev`), el error se muestra
+directamente en el navegador, con el número de línea. Revisa esa línea y la
+anterior.
 
 ## Editar y subir los cambios
 
-Hay dos formas. Elige la que te resulte más cómoda.
+### Opción A: en Nextcloud (recomendada)
 
-### Opción A: directo en GitHub (sin instalar nada)
+El sitio lee su contenido directamente de Nextcloud. No hace falta GitHub ni
+volver a generar el sitio.
 
-1. Entra al repositorio:
-   [github.com/Brariv/Proyecto-Relaciones-Internationales](https://github.com/Brariv/Proyecto-Relaciones-Internationales).
-2. Abre la carpeta `data/`, luego la carpeta de la página y el archivo `.md`.
-3. Haz clic en el ícono del **lápiz** (“Edit this file”).
-4. Haz tus cambios. Puedes usar la pestaña **Preview** para revisar.
-5. Clic en **Commit changes…**, escribe una descripción corta
-   (ej. `Actualiza precio del viaje a Alemania`).
-6. Elige **“Create a new branch… and start a pull request”** y confirma.
-   Así otra persona del equipo puede revisar antes de publicar.
+1. Entra a Nextcloud (en local: `http://localhost:8080`) con la **cuenta de
+   contenido** (por defecto `contenido`; la contraseña la tiene el
+   administrador).
+2. Abre **Sitio Web UVG GLOBAL → Paginas →** la carpeta de la página.
+3. Haz clic en el archivo `.md` para abrirlo en el editor de Nextcloud, haz tu
+   cambio y cierra el editor (se guarda solo).
+4. Espera hasta **1 minuto** y recarga el sitio. Ese es el tiempo que el sitio
+   guarda el contenido en memoria antes de volver a leer Nextcloud.
 
-:::note
-Necesitas una cuenta de GitHub con permiso de escritura en el repositorio.
-Si no lo tienes, pídele acceso al administrador del proyecto.
+:::tip[Otra forma de editar]
+Si el editor de Nextcloud te resulta incómodo para el YAML, descarga el
+archivo (⋯ → *Descargar*), edítalo en tu computadora con VS Code o el Bloc de
+notas, y vuelve a subirlo con el **mismo nombre** (Nextcloud te preguntará si
+reemplazarlo: elige reemplazar).
 :::
 
-### Opción B: en tu computadora (para ver el resultado antes de subir)
+:::note
+Si varias personas editan contenido, el administrador puede crearles cuentas
+propias en Nextcloud y **compartirles** la carpeta *Sitio Web UVG GLOBAL* con
+permiso de edición, en vez de compartir la contraseña de la cuenta de
+contenido.
+:::
 
-Primero instala el proyecto (solo la primera vez), según
-[Instalación y comandos](/docs/instalacion/). Luego:
+### Opción B: la copia del repositorio
+
+El repositorio guarda una copia de la carpeta en
+`nextcloud/Sitio Web UVG GLOBAL/`. Esa copia sirve para dos cosas:
+
+- es el **contenido inicial** que se sube a Nextcloud la primera vez que se
+  instala, y
+- es el **respaldo** que el sitio muestra si Nextcloud no responde, y lo que
+  ves al trabajar en tu computadora con `npm run dev` sin Docker.
+
+:::caution
+Editar la copia del repositorio **no cambia lo que hay en Nextcloud** una vez
+instalado. Si cambias algo importante en Nextcloud, conviene descargar la
+carpeta de vez en cuando y actualizar también la copia del repositorio, para
+que el respaldo no quede desactualizado.
+:::
+
+Para editarla, en GitHub o en tu computadora:
 
 ```bash
 git pull                 # trae la última versión
@@ -177,107 +220,107 @@ npm install              # por si alguien agregó dependencias
 npm run dev              # abre el sitio en http://localhost:4321
 ```
 
-1. Edita el archivo en `data/` con cualquier editor (VS Code recomendado).
-2. Al guardar, recarga el navegador para ver el cambio.
-3. Cuando esté listo, súbelo:
+1. Edita el archivo en `nextcloud/Sitio Web UVG GLOBAL/Paginas/` con cualquier
+   editor (VS Code recomendado). Al guardar, recarga el navegador.
+2. Cuando esté listo, súbelo en una rama y abre un *pull request*:
 
 ```bash
-git checkout -b contenido/precio-alemania     # crea una rama para tu cambio
-git add data/
+git checkout -b contenido/precio-alemania
+git add "nextcloud/Sitio Web UVG GLOBAL"
 git commit -m "Actualiza precio del viaje a Alemania"
 git push -u origin contenido/precio-alemania
 ```
 
-4. En GitHub aparecerá un botón **Compare & pull request** para abrir la
-   revisión.
-
 ## Contenido en un bucket (opcional)
 
-El sitio puede leer la carpeta `data/` desde un servidor de archivos en la nube
-(S3, Google Cloud Storage, una CDN…) en lugar de desde el repositorio. Esto
-permite actualizar textos **sin tocar GitHub**.
+En lugar de Nextcloud, el sitio también puede leer la misma carpeta desde un
+servidor de archivos estático (S3, Google Cloud Storage, una CDN…):
 
-1. Sube al bucket la carpeta `data/` **con la misma estructura de carpetas**:
-
-   ```
-   https://mi-bucket.ejemplo.com/data/start/carousel.md
-   https://mi-bucket.ejemplo.com/data/start/map.md
-   https://mi-bucket.ejemplo.com/data/trips/trips.md
-   …
-   ```
-
-   Los archivos deben poder leerse públicamente (o al menos desde donde se
-   genera el sitio).
-
-2. En el archivo `.env` del proyecto (copia de `.env.example`), indica la
-   dirección base:
+1. Sube al bucket el contenido de *Sitio Web UVG GLOBAL* con la misma
+   estructura (`Paginas/Inicio/carousel.md`, `Paginas/Viajes/viajes.md`, …).
+2. En `.env`, indica la dirección base (y deja vacío `NEXTCLOUD_URL`):
 
    ```bash title=".env"
-   CONTENT_BASE_URL=https://mi-bucket.ejemplo.com/data
+   CONTENT_BASE_URL=https://mi-bucket.ejemplo.com/sitio
    ```
 
-3. Para actualizar contenido, reemplaza el archivo en el bucket y **vuelve a
-   generar el sitio** con `npm run build`.
-
-:::caution
-El sitio es **estático**: lee el contenido una sola vez, al generarse. Subir un
-archivo nuevo al bucket no cambia lo que ya está publicado hasta el siguiente
-`npm run build`.
-
-Si el bucket está configurado, el sitio **ignora** la carpeta `data/` local.
-Si falta un archivo en el bucket, el build falla con
-`No se pudo cargar el contenido remoto "<página>/<archivo>.md": 404`.
-:::
+Los cambios en el bucket también aparecen solos, después de la caché de 1
+minuto. Un bucket no permite listar carpetas, así que ahí el campo `imagen`
+debe incluir la carpeta (`imagen: "Viajes_Academicos/Viajes_Alemania-2026.jpg"`).
 
 ## Imágenes y otros archivos
 
-### Logos y archivos fijos
-
-Todo lo que esté en `public/` se publica tal cual. Por ejemplo,
-`public/assets/hero-boleto.png` queda disponible en
-`https://<sitio>/assets/hero-boleto.png`.
-
-Para agregar un archivo (un logo, un PDF descargable):
-
-1. Ponlo en `public/assets/` con un nombre **sin espacios ni tildes**
-   (ej. `afiche-boston-2026.pdf`, no `Afiche Boston 2026.pdf`).
-2. Enlázalo como `/assets/afiche-boston-2026.pdf`.
-3. Súbelo igual que cualquier otro cambio (GitHub → *Add file → Upload files*,
-   o con `git add` en tu computadora).
-
-Recomendaciones para imágenes: formato `.jpg` o `.webp` para fotos y `.png`
-para logos, menos de **500 KB** por imagen y alrededor de **1600 px** de ancho.
-
 ### Fotos de las tarjetas
 
-:::note[Estado actual]
-Por ahora **todas las fotos del sitio muestran una imagen de reemplazo**
-(placeholder). El campo `imagen` de los archivos en `data/` es solo una nota
-que describe qué foto debería ir (ej. `"Foto de Madrid, UEM o tema
-aeronáutico"`); el sitio todavía no lo usa para mostrar una imagen.
-:::
+Cada foto del sitio tiene un **nombre fijo que dice dónde va**, con el formato
+`<Página>-<Sección>_<Tarjeta>.jpg`. Por ejemplo:
 
-Mientras tanto, puedes ir dejando las fotos listas:
+| Foto                                    | Dónde aparece                                  |
+| --------------------------------------- | ---------------------------------------------- |
+| `Inicio-Carrusel_Noruega.jpg`           | Inicio · carrusel, tarjeta de Noruega          |
+| `Inicio_El-Programa.jpg`                | Inicio · sección “El programa”                 |
+| `Destinos_Universidad-Europea.jpg`      | Destinos · tarjeta de la Universidad Europea   |
+| `Viajes_Alemania-2026.jpg`              | Viajes Académicos · Alemania 2026              |
+| `Testimonios-Viajes_Boston.jpg`         | Testimonios · viaje a Boston                   |
+| `Pasantias_Duracion-Tipica.jpg`         | Pasantías · foto detrás de “Duración típica”   |
 
-1. Guarda cada foto en `public/assets/` con un nombre claro
-   (ej. `viaje-alemania-2026.jpg`).
-2. Anota en el campo `imagen` de su tarjeta la ruta que tendrá, para que el
-   equipo de desarrollo la conecte:
+La lista completa está en Nextcloud, en
+**`Imagenes/LEEME - Nombres de las fotos.md`**.
 
-   ```yaml
-       imagen: "/assets/viaje-alemania-2026.jpg"
-   ```
+**Para cambiar una foto, sube otra con exactamente el mismo nombre** a la misma
+carpeta y elige *reemplazar*. Espera hasta 1 minuto y recarga el sitio.
+
+**Para una tarjeta nueva**, pon en su campo `imagen` un nombre con el mismo
+formato y sube la foto con ese nombre, en la carpeta de su sección:
+
+```yaml title="Paginas/Destinos/convenios.md"
+    imagen: "Destinos_Universidad-de-Chile.jpg"
+```
+
+| Sección                  | Carpeta                          |
+| ------------------------ | -------------------------------- |
+| Carrusel e Inicio        | `Imagenes/Carrusel/`             |
+| Destinos (convenios)     | `Imagenes/Destinos/<región>/`    |
+| Especialización          | `Imagenes/Especializacion/`      |
+| Pasantías                | `Imagenes/Pasantias/`            |
+| Viajes Académicos        | `Imagenes/Viajes_Academicos/`    |
+| Testimonios              | `Imagenes/Testimonios/<tipo>/`   |
+
+Detalles útiles:
+
+- No importan mayúsculas/minúsculas ni la subcarpeta: el sitio busca el nombre
+  en todo `Imagenes/`.
+- Si subes un `.png` con el mismo nombre que un `.jpg`, borra el `.jpg`
+  anterior: si existen los dos, el sitio usa el que coincide exacto con el
+  campo `imagen`.
+- Mientras una foto no exista, la tarjeta muestra la imagen de reemplazo
+  (placeholder), sin romperse.
+- Las fotos de **“El programa”** y **“Duración típica”** no tienen `.md`: se
+  cambian solo subiendo otra con su mismo nombre.
+
+Recomendaciones: `.jpg` o `.webp` para fotos, menos de **500 KB** por imagen y
+alrededor de **1600 px** de ancho. Formatos aceptados: `.jpg`, `.jpeg`, `.png`,
+`.webp`, `.avif` y `.gif`.
+
+### Logos y archivos fijos
+
+Lo que no cambia (logos, el banner de Inicio) está en `public/assets/` del
+repositorio y se publica tal cual: `public/assets/hero-boleto.png` queda en
+`https://<sitio>/assets/hero-boleto.png`. Para agregar uno, ponlo ahí con un
+nombre **sin espacios ni tildes** (ej. `afiche-boston-2026.pdf`) y enlázalo
+como `/assets/afiche-boston-2026.pdf`.
 
 ## Preguntas frecuentes
 
-**Cambié un archivo pero el sitio no cambió.**
-Si estás en `npm run dev`, recarga la página. En el sitio publicado, el cambio
-solo aparece después de un nuevo `npm run build` (y de subir ese build). Si
-usas bucket, verifica que editaste el archivo del bucket y no el local.
+**Cambié un archivo en Nextcloud pero el sitio no cambió.**
+Espera 1 minuto y recarga (el sitio guarda el contenido en memoria ese
+tiempo). Si sigue igual, probablemente el archivo tiene un error de formato y
+el sitio está mostrando la última versión buena: revisa las
+[reglas](#reglas-para-no-romper-el-archivo).
 
-**El build falla después de mi cambio.**
-Casi siempre es la indentación o una comilla sin cerrar. Lee el número de línea
-del error y revisa las [reglas](#reglas-para-no-romper-el-archivo).
+**Subí una foto y sigue el placeholder.**
+Revisa que el nombre del archivo sea el mismo que el campo `imagen` (sin
+espacios de más) y que esté dentro de `Imagenes/`.
 
 **Una tarjeta aparece con un espacio vacío.**
 Le falta un campo o tiene un nombre de campo mal escrito. Compárala con otra

@@ -7,7 +7,12 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f site nextcloud",
+    "nextcloud:subir": "node --env-file=.env scripts/subir-a-nextcloud.mjs",
+    "nextcloud:renombrar-fotos": "node --env-file=.env scripts/renombrar-fotos-nextcloud.mjs"
   },
   "repository": {
     "type": "git",
@@ -22,6 +27,7 @@
   },
   "homepage": "https://github.com/Brariv/Proyecto-Relaciones-Internationales#readme",
   "dependencies": {
+    "@astrojs/node": "~10.1.4",
     "@astrojs/starlight": "^0.39.3",
     "astro": "^6.4.2",
     "gray-matter": "^4.0.3"

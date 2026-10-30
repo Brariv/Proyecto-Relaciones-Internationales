@@ -1,13 +1,15 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
 import CoverImage from "../../components/common/CoverImage.astro";
-import { loadComponentContent } from "../../lib/content";
+import { loadComponentContent, resolveImage } from "../../lib/content";
 
+// Paginas/Especializaciones/especializaciones.md · photos in Imagenes/Especializacion/
 interface ProgramItem {
   titulo: string;
-  badge: string;
+  etiqueta: string;
   descripcion: string;
   universidad: string;
+  pais: string;
   semestre: string;
   cursos: string;
   costo: string;
@@ -15,7 +17,8 @@ interface ProgramItem {
   imagen: string;
 }
 
-const { items: programs } = await loadComponentContent<ProgramItem>("specialization", "programs");
+const { items } = await loadComponentContent<ProgramItem>("Especializaciones", "especializaciones");
+const programs = await Promise.all(items.map(async (p) => ({ ...p, image: await resolveImage(p.imagen) })));
 
 const requirements = [
   { icon: "7º", title: "Penúltimo año", text: "Estar al menos en el penúltimo año de tu carrera al presentar la aplicación." },
@@ -74,8 +77,8 @@ const steps = [
         {programs.map((p) => (
           <article class="espec-card">
             <div class="photo">
-              <CoverImage alt={p.titulo} />
-              <span class="lvl">{p.badge}</span>
+              <CoverImage src={p.image} alt={p.titulo} />
+              <span class="lvl">{p.etiqueta}</span>
             </div>
             <div class="body">
               <h3>{p.titulo}</h3>

@@ -1,7 +1,7 @@
 ---
 import ApplyProcessSection from "../../components/common/ApplyProcessSection.astro";
 import CoverImage from "../../components/common/CoverImage.astro";
-import { loadComponentContent } from "../../lib/content";
+import { loadComponentContent, resolveImage } from "../../lib/content";
 
 interface InternshipItem {
   nombre: string;
@@ -12,7 +12,11 @@ interface InternshipItem {
   labels: string[];
 }
 
-const { items: internships } = await loadComponentContent<InternshipItem>("internships", "programs");
+const { items: internships } = await loadComponentContent<InternshipItem>("Pasantias", "pasantias");
+
+// Photo behind "Duración típica": fixed file name, searched anywhere under
+// Imagenes/ (currently Imagenes/Pasantias/). Placeholder if it doesn't exist.
+const photo = await resolveImage("Pasantias_Duracion-Tipica.jpg");
 
 const points = [
   { mk: "↗", text: "<strong>Experiencia profesional internacional</strong> que enriquece tu CV antes de graduarte." },
@@ -80,7 +84,7 @@ const steps = [
           </ul>
         </div>
         <div class="pas-photo">
-          <CoverImage alt="Estudiante UVG en su pasantía internacional" />
+          <CoverImage src={photo} alt="Estudiante UVG en su pasantía internacional" />
           <div class="badge">
             <div class="label">Duración típica</div>
             <div class="txt">De 3 a 10 meses según el programa</div>

@@ -12,18 +12,12 @@ import Specialization from "../components/inner_pages/specialization.astro";
 import Testimonies from "../components/inner_pages/testimonies.astro";
 import Trips from "../components/inner_pages/trips.astro";
 
-export function getStaticPaths() {
-  return [
-    { params: { slug: undefined } },          // "/"
-    { params: { slug: "destinations" } },
-    { params: { slug: "exchanges" } },
-    { params: { slug: "internships" } },
-    { params: { slug: "specialization" } },
-    { params: { slug: "testimonies" } },
-    { params: { slug: "trips" } },
-  ];
-}
+// Rendered on every request (not at build time) so content edited in
+// Nextcloud appears without rebuilding. Content is cached in memory
+// (CONTENT_CACHE_TTL, see src/lib/content.ts), so this stays fast.
+export const prerender = false;
 
+// To add a page: register it here and in `meta` below.
 const routes: Record<string, any> = {
   "": Start,               // slug is undefined -> "" -> root
   "destinations": Destinations,
@@ -65,10 +59,14 @@ const meta: Record<string, { title: string; description: string }> = {
   },
 };
 
-const { slug } = Astro.params;
-const path = "/" + (slug ?? "");
-const Page = routes[slug ?? ""]; // ?? NotFound
-const pageMeta = meta[slug ?? ""] ?? meta[""];
+const slug = (Astro.params.slug ?? "").replace(/\/+$/, "");
+const Page = routes[slug];
+// Unknown URL -> an empty 404 makes Astro serve the (static) 404 page,
+// see src/content/docs/404.md
+if (!Page) return new Response(null, { status: 404 });
+
+const path = "/" + slug;
+const pageMeta = meta[slug] ?? meta[""];
 ---
 
 <BaseLayout title={pageMeta.title} description={pageMeta.description}>

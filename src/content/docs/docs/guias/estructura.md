@@ -8,25 +8,37 @@ sidebar:
 ## Carpetas principales
 
 ```
-├── data/                  # Contenido editable (Markdown + frontmatter YAML)
+├── nextcloud/
+│   └── Sitio Web UVG GLOBAL/  # Contenido (textos .md + fotos): copia inicial/respaldo de Nextcloud
+├── docker/nextcloud/      # Imagen de Nextcloud + script de primera instalación
 ├── docs/                  # Notas internas y el prototipo de diseño original
 │   ├── Format_Page.md     #   campos de cada componente
 │   └── prototypes/        #   handoff de diseño (HTML/CSS de referencia)
-├── public/assets/         # Logos e imágenes servidas tal cual
+├── public/assets/         # Logos e imágenes fijas, servidas tal cual
 ├── src/
 │   ├── components/
 │   │   ├── common/        # Secciones y piezas reutilizables
 │   │   └── inner_pages/   # Una por página: arma sus secciones
 │   ├── content/docs/      # Esta documentación (Starlight)
 │   ├── layouts/           # BaseLayout: <head>, fuentes, CSS global
-│   ├── lib/               # Carga de contenido y normalización de datos
+│   ├── lib/
+│   │   ├── content.ts     #   lee el contenido (Nextcloud / bucket / local) y resuelve fotos
+│   │   └── destinations.ts#   normaliza los destinos del mapa
 │   ├── pages/
-│   │   └── [...slug].astro  # Router único del sitio
+│   │   ├── [...slug].astro  # Router único del sitio (se renderiza en cada visita)
+│   │   └── media/[...path].ts # Sirve las fotos de Nextcloud en /media/…
 │   └── styles/
 │       ├── global.css     # Estilos del sitio
 │       └── docs.css       # Colores de esta documentación
-└── astro.config.mjs       # Configuración de Astro + Starlight
+├── Dockerfile             # Imagen del sitio
+├── docker-compose.yml     # Sitio + Nextcloud + MariaDB
+└── astro.config.mjs       # Astro (servidor Node) + Starlight + variables de entorno
 ```
+
+:::note
+La carpeta `data/` es del formato anterior y **ya no se usa**: el contenido
+está en `nextcloud/Sitio Web UVG GLOBAL/`. Se puede borrar.
+:::
 
 ## Rutas
 
@@ -47,13 +59,16 @@ de router:
 El router envuelve cada página con `BaseLayout`, `Header` y `Footer`, así que
 las páginas en `inner_pages/` solo contienen su `<main>`.
 
+Las páginas del sitio se **generan en cada visita** (`export const prerender = false`)
+para mostrar lo último de Nextcloud. La documentación `/docs` sigue siendo
+estática. Una URL que no está en `routes` responde con la página 404.
+
 ### Agregar una página nueva
 
 1. Crea `src/components/inner_pages/mi-pagina.astro` con su `<main id="top">…</main>`.
 2. En `src/pages/[...slug].astro`:
    - impórtala,
-   - agrega `{ params: { slug: "mi-pagina" } }` en `getStaticPaths()`,
-   - agrégala al objeto `routes`,
+   - agrégala al objeto `routes` (la llave es la URL sin `/`, ej. `"mi-pagina"`),
    - agrega su título y descripción en `meta`.
 3. Si debe aparecer en el menú, agrega el enlace en
    `src/components/common/Header.astro` (y en `Footer.astro` si aplica).

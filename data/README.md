@@ -1,4 +1,10 @@
-# /data
+# /data — YA NO SE USA
+
+> **Esta carpeta es del formato anterior y el sitio ya no la lee.** El contenido
+> ahora vive en Nextcloud, con la estructura de
+> [`nextcloud/Sitio Web UVG GLOBAL/`](../nextcloud/Sitio%20Web%20UVG%20GLOBAL/)
+> (copia inicial y respaldo). Ver la guía *Docker y Nextcloud* en `/docs`.
+> Esta carpeta se puede borrar.
 
 Contenido editable de las páginas del sitio, separado del código de los componentes.
 El formato de cada componente está descrito en [`docs/Format_Page.md`](../docs/Format_Page.md).

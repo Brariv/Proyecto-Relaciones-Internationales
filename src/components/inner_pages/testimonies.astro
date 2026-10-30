@@ -1,26 +1,41 @@
 ---
 import CoverImage from "../../components/common/CoverImage.astro";
-import { loadComponentContent } from "../../lib/content";
+import { loadComponentContent, resolveImage } from "../../lib/content";
 
+// Paginas/Testimonios/{intercambios,pasantias,viajes}.md · photos in Imagenes/Testimonios/
 interface TestimonyItem {
   nombre: string;
-  modalidad: string;
-  universidad: string;
   descripcion: string;
-  tipoDeEstudio: string;
+  universidad: string;
+  pais: string;
+  bandera: string;
+  /** modality, e.g. "Convenio-Beca" (exchanges) or "Pasantía · Komatsu" */
+  tipoEstudio: string;
+  carrera: string;
   facultad: string;
   imagen: string;
 }
 
-const { items: exchanges } = await loadComponentContent<TestimonyItem>("testimonies", "exchanges");
-const { items: internships } = await loadComponentContent<TestimonyItem>("testimonies", "internships");
-const { items: trips } = await loadComponentContent<TestimonyItem>("testimonies", "trips");
+async function loadGroup(title: string, file: string, modPrefix = "") {
+  const { items } = await loadComponentContent<TestimonyItem>("Testimonios", file);
+  return {
+    title,
+    items: await Promise.all(
+      items.map(async (t) => ({
+        ...t,
+        mod: modPrefix + t.tipoEstudio,
+        where: [t.bandera, t.universidad].filter(Boolean).join(" ") + (t.pais ? ` · ${t.pais}` : ""),
+        image: await resolveImage(t.imagen),
+      }))
+    ),
+  };
+}
 
-const groups = [
-  { title: "Intercambio", items: exchanges },
-  { title: "Pasantías", items: internships },
-  { title: "Viajes académicos", items: trips },
-];
+const groups = await Promise.all([
+  loadGroup("Intercambio", "intercambios", "Modalidad · "),
+  loadGroup("Pasantías", "pasantias"),
+  loadGroup("Viajes académicos", "viajes"),
+]);
 ---
 
 <main id="top">
@@ -41,14 +56,14 @@ const groups = [
             {g.items.map((t) => (
               <article class="testim-card">
                 <div class="photo">
-                  <CoverImage alt={t.nombre} />
+                  <CoverImage src={t.image} alt={t.nombre} />
                 </div>
-                <div class="mod">{t.modalidad}</div>
+                <div class="mod">{t.mod}</div>
                 <div class="name">{t.nombre}</div>
-                <div class="where">{t.universidad}</div>
+                <div class="where">{t.where}</div>
                 <blockquote>{t.descripcion}</blockquote>
                 <div class="career">
-                  <strong>{t.tipoDeEstudio}</strong><br />
+                  <strong>{t.carrera}</strong><br />
                   {t.facultad}
                 </div>
               </article>

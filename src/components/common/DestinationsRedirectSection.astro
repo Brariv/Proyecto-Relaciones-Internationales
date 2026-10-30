@@ -1,11 +1,11 @@
 ---
 import { loadComponentContent } from "../../lib/content";
-import { normalizeDestination } from "../../lib/destinations";
+import { normalizeDestination, type RawDestination } from "../../lib/destinations";
 
 // Region order matches the handoff design; counts are derived from the
-// shared data/start/map.md dataset (same source the world map uses) instead
+// shared Paginas/Inicio/map.md dataset (same source the world map uses) instead
 // of hardcoding stale numbers.
-const { items } = await loadComponentContent("start", "map");
+const { items } = await loadComponentContent<RawDestination>("Inicio", "map");
 const destinations = items.map(normalizeDestination);
 
 const regionOrder = ["América Latina", "Norteamérica", "Europa", "Asia"];

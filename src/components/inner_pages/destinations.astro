@@ -1,18 +1,64 @@
 ---
-// Destinos disponibles y próximas oportunidades. Reutiliza el mismo dataset
-// que el mapa mundial de Inicio (data/start/map.md) — es la fuente única de
-// verdad para los destinos UVG Global, tal como en el prototipo original
-// (map.js alimenta tanto el mapa como esta página con el mismo arreglo).
-import { loadComponentContent } from "../../lib/content";
-import { normalizeDestination } from "../../lib/destinations";
+// Destinos disponibles y próximas oportunidades.
+//   Paginas/Destinos/convenios.md     -> tarjetas con convenio activo (+ foto en Imagenes/Destinos/)
+//   Paginas/Destinos/oportunidades.md -> lista de próximas oportunidades
+// Lo que esos archivos no traen (ciudad, idioma, región, sitio oficial) se
+// completa desde Paginas/Inicio/map.md usando el mismo `id`.
+import { loadComponentContent, resolveImage } from "../../lib/content";
+import { normalizeDestination, type RawDestination } from "../../lib/destinations";
 import CoverImage from "../../components/common/CoverImage.astro";
+
+interface Convenio {
+  id: string;
+  nombre: string;
+  pais: string;
+  label: string;
+  link: string;
+  cupos: string;
+  imagen: string;
+}
+interface Oportunidad {
+  id: string;
+  nombre: string;
+  lugar: string;
+  bandera: string;
+}
 
 const regions = ["América Latina", "Norteamérica", "Europa", "Asia"];
 
-const { items } = await loadComponentContent("start", "map");
-const destinations = items.map(normalizeDestination);
-const available = destinations.filter((d) => d.status === "available");
-const upcoming = destinations.filter((d) => d.status === "upcoming");
+const [{ items: convenios }, { items: oportunidades }, { items: mapItems }] = await Promise.all([
+  loadComponentContent<Convenio>("Destinos", "convenios"),
+  loadComponentContent<Oportunidad>("Destinos", "oportunidades"),
+  loadComponentContent<RawDestination>("Inicio", "map"),
+]);
+const byId = new Map(mapItems.map(normalizeDestination).map((d) => [d.id, d]));
+
+const available = await Promise.all(
+  convenios.map(async (c) => {
+    const m = byId.get(c.id);
+    return {
+      id: c.id,
+      uni: c.nombre,
+      country: c.pais,
+      region: c.label,
+      cupos: c.cupos,
+      flag: m?.flag ?? "",
+      city: m?.city ?? "",
+      idioma: m?.idioma ?? "",
+      image: await resolveImage(c.imagen),
+    };
+  })
+);
+
+const upcoming = oportunidades.map((o) => {
+  const m = byId.get(o.id);
+  return {
+    uni: o.nombre,
+    flag: o.bandera,
+    sub: [o.lugar, m?.region].filter(Boolean).join(" · "),
+    href: m?.site || `/?dest=${o.id}#mapa`,
+  };
+});
 ---
 
 <main id="top">
@@ -38,7 +84,7 @@ const upcoming = destinations.filter((d) => d.status === "upcoming");
         {available.map((d) => (
           <article class="dest-card" data-region={d.region} data-country={d.country.toLowerCase()}>
             <div class="photo">
-              <CoverImage alt={`${d.uni} · ${d.city}`} />
+              <CoverImage src={d.image} alt={`${d.uni} · ${d.city || d.country}`} />
               <span class="flag-row"><span class="flag">{d.flag}</span> {d.country}</span>
             </div>
             <div class="body">
@@ -46,7 +92,7 @@ const upcoming = destinations.filter((d) => d.status === "upcoming");
               <h3>{d.uni}</h3>
               <div class="meta">
                 <span class="pill green">{d.region}</span>
-                <span class="pill">{d.idioma.split("/")[0].trim()}</span>
+                {d.idioma && <span class="pill">{d.idioma.split("/")[0].trim()}</span>}
               </div>
               <div class="dest-foot">
                 <span class="cupos">
@@ -78,11 +124,11 @@ const upcoming = destinations.filter((d) => d.status === "upcoming");
 
       <div class="upcoming-grid" id="upcoming-grid">
         {upcoming.map((d) => (
-          <a class="up-row" href={d.site} target="_blank" rel="noopener">
+          <a class="up-row" href={d.href} target="_blank" rel="noopener">
             <span class="flag-big">{d.flag}</span>
             <div class="info">
               <h4>{d.uni}</h4>
-              <div class="sub">{d.city}, {d.country} · {d.region}</div>
+              <div class="sub">{d.sub}</div>
             </div>
             <span class="status"><span class="pulse"></span>Próximo</span>
           </a>

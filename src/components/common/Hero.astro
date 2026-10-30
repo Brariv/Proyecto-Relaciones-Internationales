@@ -1,7 +1,7 @@
 ---
-// Stacked-card hero carousel. Content is loaded from data/start/carousel.md
-// (see docs/Format_Page.md > Inicio > Carusel).
-import { loadComponentContent } from "../../lib/content";
+// Stacked-card hero carousel. Content: Paginas/Inicio/carousel.md
+// (see Informacion.md > Inicio > Carusel). Photos: Imagenes/Carrusel/.
+import { loadComponentContent, resolveImage } from "../../lib/content";
 import CoverImage from "./CoverImage.astro";
 
 interface CarouselItem {
@@ -10,16 +10,21 @@ interface CarouselItem {
   footer: string;
   redireccion: string;
   meta?: string;
+  /** optional: file name of a photo uploaded to Imagenes/Carrusel/ */
+  imagen?: string;
 }
 
-const { items } = await loadComponentContent<CarouselItem>("start", "carousel");
-const cards = items.map((item) => ({
-  kicker: item.descripcion,
-  title: item.titulo,
-  cta: item.footer,
-  ctaHref: item.redireccion,
-  meta: item.meta,
-}));
+const { items } = await loadComponentContent<CarouselItem>("Inicio", "carousel");
+const cards = await Promise.all(
+  items.map(async (item) => ({
+    kicker: item.descripcion,
+    title: item.titulo,
+    cta: item.footer,
+    ctaHref: item.redireccion,
+    meta: item.meta,
+    image: await resolveImage(item.imagen),
+  }))
+);
 
 // Precompute each card's initial stack position (mirrors carousel.js'
 // update()) so the layout is correct before the client script hydrates.
@@ -51,7 +56,7 @@ function initialPos(i: number) {
         <article class="hero-card" data-index={i} data-pos={initialPos(i)} aria-roledescription="slide">
           <div class="card-bg">
             <div class="card-media">
-              <CoverImage alt={c.title} loading="eager" />
+              <CoverImage src={c.image} alt={c.title} loading="eager" />
             </div>
           </div>
           <div class="card-body">
